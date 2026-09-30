@@ -1,0 +1,8 @@
+name = "official-doc-ai-proxy"
+main = "src/index.ts"
+compatibility_date = "2026-09-30"
+
+[vars]
+# Comma-separated exact origins. GitHub Pages uses the account origin regardless of repo path.
+ALLOWED_ORIGINS = "http://localhost:5173,https://neuromorphicscience-sys.github.io"
+DEEPSEEK_MODEL = "deepseek-chat"
