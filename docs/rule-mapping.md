@@ -9,7 +9,7 @@
 | 一般 22 行/面，原则行距 28.8 磅 | `w:docGrid` + 段落 exact 28.8pt |
 | 标题二号方正小标宋_GBK，不加粗，居中 | 标题 role 的直接 OOXML 字体/字号/对齐 |
 | 正文三号仿宋_GB2312 | body role 16pt 仿宋_GB2312 |
-| 正文两端对齐、首行缩进 2 字符 | `w:jc=both` + `w:firstLineChars=200` |
+| 正文两端对齐、首行缩进 2 字符 | `w:jc=both` + `w:firstLineChars=200` + 等价 `w:firstLine=640`，兼容忽略字符缩进的渲染器 |
 | 一级标题三号黑体 | heading level 1 |
 | 二级标题三号楷体_GB2312 | heading level 2 |
 | 三级/四级标题三号仿宋_GB2312 | heading level 3/4；“视情况加粗”暂不自动猜测 |

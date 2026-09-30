@@ -1,0 +1,606 @@
+{
+  "url": "https://neuromorphicscience-sys.github.io/officical-doc-ai/",
+  "startedAt": "2026-09-30T11:42:47.671Z",
+  "documents": [
+    {
+      "label": "demo",
+      "source": "deepseek",
+      "documentType": "通知",
+      "confidence": 0.98,
+      "roles": [
+        {
+          "id": 0,
+          "role": "title",
+          "confidence": 0.99
+        },
+        {
+          "id": 1,
+          "role": "recipient",
+          "confidence": 0.98
+        },
+        {
+          "id": 2,
+          "role": "body",
+          "confidence": 0.95
+        },
+        {
+          "id": 3,
+          "role": "heading",
+          "level": 1,
+          "confidence": 0.98
+        },
+        {
+          "id": 4,
+          "role": "heading",
+          "level": 2,
+          "confidence": 0.97
+        },
+        {
+          "id": 5,
+          "role": "body",
+          "confidence": 0.96
+        },
+        {
+          "id": 6,
+          "role": "heading",
+          "level": 2,
+          "confidence": 0.97
+        },
+        {
+          "id": 7,
+          "role": "body",
+          "confidence": 0.96
+        },
+        {
+          "id": 8,
+          "role": "heading",
+          "level": 1,
+          "confidence": 0.98
+        },
+        {
+          "id": 9,
+          "role": "heading",
+          "level": 2,
+          "confidence": 0.97
+        },
+        {
+          "id": 10,
+          "role": "body",
+          "confidence": 0.96
+        },
+        {
+          "id": 11,
+          "role": "heading",
+          "level": 2,
+          "confidence": 0.97
+        },
+        {
+          "id": 12,
+          "role": "body",
+          "confidence": 0.96
+        },
+        {
+          "id": 13,
+          "role": "heading",
+          "level": 1,
+          "confidence": 0.98
+        },
+        {
+          "id": 14,
+          "role": "body",
+          "confidence": 0.95
+        },
+        {
+          "id": 15,
+          "role": "attachment_note",
+          "confidence": 0.97
+        },
+        {
+          "id": 16,
+          "role": "issuer",
+          "confidence": 0.96
+        },
+        {
+          "id": 17,
+          "role": "date",
+          "confidence": 0.98
+        }
+      ],
+      "integrity": "原始字符数\n375\n输出字符数\n375\n新增字符\n0\n删除字符\n0\n修改字符\n0\nSHA-256\n一致",
+      "compare": {
+        "same": true,
+        "characters": 358,
+        "valid": true
+      },
+      "download": "demo_规范版.docx",
+      "pass": true
+    },
+    {
+      "label": "reload",
+      "source": "deepseek",
+      "documentType": "通知",
+      "confidence": 0.98,
+      "roles": [
+        {
+          "id": 0,
+          "role": "title",
+          "confidence": 0.99
+        },
+        {
+          "id": 1,
+          "role": "recipient",
+          "confidence": 0.98
+        },
+        {
+          "id": 2,
+          "role": "body",
+          "confidence": 0.99
+        },
+        {
+          "id": 3,
+          "role": "heading",
+          "level": 1,
+          "confidence": 0.99
+        },
+        {
+          "id": 4,
+          "role": "heading",
+          "level": 2,
+          "confidence": 0.98
+        },
+        {
+          "id": 5,
+          "role": "body",
+          "confidence": 0.99
+        },
+        {
+          "id": 6,
+          "role": "heading",
+          "level": 2,
+          "confidence": 0.98
+        },
+        {
+          "id": 7,
+          "role": "body",
+          "confidence": 0.99
+        },
+        {
+          "id": 8,
+          "role": "heading",
+          "level": 1,
+          "confidence": 0.99
+        },
+        {
+          "id": 9,
+          "role": "heading",
+          "level": 2,
+          "confidence": 0.98
+        },
+        {
+          "id": 10,
+          "role": "body",
+          "confidence": 0.99
+        },
+        {
+          "id": 11,
+          "role": "heading",
+          "level": 2,
+          "confidence": 0.98
+        },
+        {
+          "id": 12,
+          "role": "body",
+          "confidence": 0.99
+        },
+        {
+          "id": 13,
+          "role": "heading",
+          "level": 1,
+          "confidence": 0.99
+        },
+        {
+          "id": 14,
+          "role": "body",
+          "confidence": 0.99
+        },
+        {
+          "id": 15,
+          "role": "attachment_note",
+          "confidence": 0.95
+        },
+        {
+          "id": 16,
+          "role": "issuer",
+          "confidence": 0.96
+        },
+        {
+          "id": 17,
+          "role": "date",
+          "confidence": 0.97
+        }
+      ],
+      "integrity": "原始字符数\n375\n输出字符数\n375\n新增字符\n0\n删除字符\n0\n修改字符\n0\nSHA-256\n一致",
+      "compare": {
+        "same": true,
+        "characters": 358,
+        "valid": true
+      },
+      "download": "reload_规范版.docx",
+      "pass": true
+    },
+    {
+      "label": "A-uniform",
+      "source": "deepseek",
+      "documentType": "通知",
+      "confidence": 0.98,
+      "roles": [
+        {
+          "id": 0,
+          "role": "title",
+          "confidence": 0.99
+        },
+        {
+          "id": 1,
+          "role": "recipient",
+          "confidence": 0.98
+        },
+        {
+          "id": 2,
+          "role": "body",
+          "confidence": 0.98
+        },
+        {
+          "id": 3,
+          "role": "heading",
+          "level": 1,
+          "confidence": 0.99
+        },
+        {
+          "id": 4,
+          "role": "heading",
+          "level": 2,
+          "confidence": 0.98
+        },
+        {
+          "id": 5,
+          "role": "body",
+          "confidence": 0.99
+        },
+        {
+          "id": 6,
+          "role": "heading",
+          "level": 2,
+          "confidence": 0.98
+        },
+        {
+          "id": 7,
+          "role": "body",
+          "confidence": 0.99
+        },
+        {
+          "id": 8,
+          "role": "heading",
+          "level": 1,
+          "confidence": 0.99
+        },
+        {
+          "id": 9,
+          "role": "heading",
+          "level": 2,
+          "confidence": 0.98
+        },
+        {
+          "id": 10,
+          "role": "body",
+          "confidence": 0.99
+        },
+        {
+          "id": 11,
+          "role": "heading",
+          "level": 2,
+          "confidence": 0.98
+        },
+        {
+          "id": 12,
+          "role": "body",
+          "confidence": 0.99
+        },
+        {
+          "id": 13,
+          "role": "heading",
+          "level": 1,
+          "confidence": 0.99
+        },
+        {
+          "id": 14,
+          "role": "body",
+          "confidence": 0.98
+        },
+        {
+          "id": 15,
+          "role": "attachment_note",
+          "confidence": 0.97
+        },
+        {
+          "id": 16,
+          "role": "issuer",
+          "confidence": 0.96
+        },
+        {
+          "id": 17,
+          "role": "date",
+          "confidence": 0.98
+        }
+      ],
+      "integrity": "原始字符数\n375\n输出字符数\n375\n新增字符\n0\n删除字符\n0\n修改字符\n0\nSHA-256\n一致",
+      "compare": {
+        "same": true,
+        "characters": 358,
+        "valid": true
+      },
+      "download": "A-uniform_规范版.docx",
+      "pass": true
+    },
+    {
+      "label": "B-unnumbered",
+      "source": "deepseek",
+      "documentType": "通知",
+      "confidence": 0.95,
+      "roles": [
+        {
+          "id": 0,
+          "role": "title",
+          "confidence": 0.99
+        },
+        {
+          "id": 1,
+          "role": "recipient",
+          "confidence": 0.98
+        },
+        {
+          "id": 2,
+          "role": "body",
+          "confidence": 0.98
+        },
+        {
+          "id": 3,
+          "role": "heading",
+          "level": 1,
+          "confidence": 0.9
+        },
+        {
+          "id": 4,
+          "role": "body",
+          "confidence": 0.98
+        },
+        {
+          "id": 5,
+          "role": "heading",
+          "level": 1,
+          "confidence": 0.9
+        },
+        {
+          "id": 6,
+          "role": "body",
+          "confidence": 0.98
+        },
+        {
+          "id": 7,
+          "role": "heading",
+          "level": 1,
+          "confidence": 0.9
+        },
+        {
+          "id": 8,
+          "role": "body",
+          "confidence": 0.98
+        },
+        {
+          "id": 9,
+          "role": "issuer",
+          "confidence": 0.95
+        },
+        {
+          "id": 10,
+          "role": "date",
+          "confidence": 0.98
+        }
+      ],
+      "integrity": "原始字符数\n178\n输出字符数\n178\n新增字符\n0\n删除字符\n0\n修改字符\n0\nSHA-256\n一致",
+      "compare": {
+        "same": true,
+        "characters": 168,
+        "valid": true
+      },
+      "download": "B-unnumbered_规范版.docx",
+      "pass": true
+    },
+    {
+      "label": "C-attachments",
+      "source": "deepseek",
+      "documentType": "通知",
+      "confidence": 0.95,
+      "roles": [
+        {
+          "id": 0,
+          "role": "title",
+          "confidence": 0.98
+        },
+        {
+          "id": 1,
+          "role": "recipient",
+          "confidence": 0.97
+        },
+        {
+          "id": 2,
+          "role": "body",
+          "confidence": 0.98
+        },
+        {
+          "id": 3,
+          "role": "attachment_note",
+          "confidence": 0.96
+        },
+        {
+          "id": 4,
+          "role": "issuer",
+          "confidence": 0.95
+        },
+        {
+          "id": 5,
+          "role": "date",
+          "confidence": 0.97
+        },
+        {
+          "id": 6,
+          "role": "annotation",
+          "confidence": 0.9
+        }
+      ],
+      "integrity": "原始字符数\n91\n输出字符数\n91\n新增字符\n0\n删除字符\n0\n修改字符\n0\nSHA-256\n一致",
+      "compare": {
+        "same": true,
+        "characters": 85,
+        "valid": true
+      },
+      "download": "C-attachments_规范版.docx",
+      "pass": true
+    }
+  ],
+  "responsive": [
+    {
+      "state": "landing",
+      "width": 1440,
+      "height": 900,
+      "scroll": 1440,
+      "pass": true
+    },
+    {
+      "state": "landing",
+      "width": 1280,
+      "height": 800,
+      "scroll": 1280,
+      "pass": true
+    },
+    {
+      "state": "landing",
+      "width": 768,
+      "height": 1024,
+      "scroll": 768,
+      "pass": true
+    },
+    {
+      "state": "landing",
+      "width": 390,
+      "height": 844,
+      "scroll": 390,
+      "pass": true
+    },
+    {
+      "state": "result",
+      "width": 1440,
+      "height": 900,
+      "scroll": 1440,
+      "pass": true
+    },
+    {
+      "state": "result",
+      "width": 1280,
+      "height": 800,
+      "scroll": 1280,
+      "pass": true
+    },
+    {
+      "state": "result",
+      "width": 768,
+      "height": 1024,
+      "scroll": 768,
+      "pass": true
+    },
+    {
+      "state": "result",
+      "width": 390,
+      "height": 844,
+      "scroll": 390,
+      "pass": true
+    }
+  ],
+  "accessibility": [
+    {
+      "label": "landing",
+      "violations": []
+    },
+    {
+      "label": "result",
+      "violations": []
+    },
+    {
+      "label": "error-recovered",
+      "violations": []
+    }
+  ],
+  "errors": [
+    {
+      "label": "download-failure-recoverable",
+      "pass": true
+    },
+    {
+      "label": "not-docx",
+      "pass": true
+    },
+    {
+      "label": "empty",
+      "pass": true
+    },
+    {
+      "label": "corrupt",
+      "pass": true
+    },
+    {
+      "label": "missing-document",
+      "pass": true
+    },
+    {
+      "label": "invalid-ai-json",
+      "pass": true
+    },
+    {
+      "label": "timeout",
+      "pass": true
+    },
+    {
+      "label": "too-large",
+      "pass": true
+    },
+    {
+      "label": "ai-unavailable-clearly-labelled-demo",
+      "pass": true
+    },
+    {
+      "label": "remove-recover",
+      "pass": true
+    }
+  ],
+  "fatalConsole": [],
+  "expectedFaultConsole": [
+    "Failed to load resource: the server responded with a status of 502 (Bad Gateway)",
+    "Failed to load resource: the server responded with a status of 413 (Payload Too Large)",
+    "Failed to load resource: net::ERR_FAILED"
+  ],
+  "resources": [
+    {
+      "name": "/officical-doc-ai/assets/index-DuEjZqhi.js",
+      "duration": 827.5
+    },
+    {
+      "name": "/officical-doc-ai/assets/index-D9TEeMBz.css",
+      "duration": 391
+    }
+  ],
+  "keyboard": {
+    "firstFocus": "跳转到文档处理",
+    "outline": "solid"
+  },
+  "finishedAt": "2026-09-30T11:43:24.646Z",
+  "pass": true
+}

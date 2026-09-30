@@ -1,0 +1,44 @@
+{
+  "pass": true,
+  "container": "mov,mp4,m4a,3gp,3g2,mj2",
+  "codec": "h264",
+  "width": 1920,
+  "height": 1080,
+  "fps": "30/1",
+  "pixelFormat": "yuv420p",
+  "durationSeconds": 349.267,
+  "duration": "05:49",
+  "sizeBytes": 17134560,
+  "sha256": "7f579ff5d2febd96bd38a941aeb6cf98d501f03c0b152eda519665855fda23ab",
+  "audio": "none",
+  "subtitles": "simplified Chinese, burned in, plus UTF-8 SRT",
+  "fullDecode": "PASS",
+  "sampleFrames": [
+    "start",
+    "25%",
+    "50%",
+    "75%",
+    "end"
+  ],
+  "visualQC": {
+    "status": "PASS",
+    "framesReviewed": [
+      "start",
+      "25%",
+      "50%",
+      "75%",
+      "end",
+      "error recovery"
+    ],
+    "checks": [
+      "burned Chinese subtitles visible",
+      "no subtitle overlap",
+      "text legible",
+      "no black frames in samples",
+      "no secret or personal paths in samples",
+      "error panel visible above subtitle strip",
+      "closing repeated tail trimmed"
+    ],
+    "evidence": "evidence/video-qc-contact.png"
+  }
+}

@@ -1,0 +1,38 @@
+﻿[
+    {
+        "pdf":  null,
+        "pages":  null,
+        "openAndRepair":  false,
+        "wordVersion":  "16.0",
+        "saveClose":  true,
+        "status":  "PASS",
+        "file":  "乱格式办公通知示例.docx"
+    },
+    {
+        "pdf":  null,
+        "pages":  null,
+        "openAndRepair":  false,
+        "wordVersion":  "16.0",
+        "saveClose":  true,
+        "status":  "PASS",
+        "file":  "after.docx"
+    },
+    {
+        "pdf":  null,
+        "pages":  null,
+        "openAndRepair":  false,
+        "wordVersion":  "16.0",
+        "saveClose":  true,
+        "status":  "PASS",
+        "file":  "before.docx"
+    },
+    {
+        "pdf":  null,
+        "pages":  null,
+        "openAndRepair":  false,
+        "wordVersion":  "16.0",
+        "saveClose":  true,
+        "status":  "PASS",
+        "file":  "recorded-output.docx"
+    }
+]

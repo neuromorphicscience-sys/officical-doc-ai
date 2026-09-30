@@ -1,0 +1,74 @@
+{
+  "filesScanned": 112,
+  "historicalBlobsScanned": 141,
+  "secretFindings": [],
+  "externalKeyFileRead": false,
+  "workerChecks": [
+    {
+      "label": "health",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "noStore": "no-store",
+      "allowOrigin": "https://neuromorphicscience-sys.github.io"
+    },
+    {
+      "label": "CORS allow",
+      "status": 204,
+      "expected": 204,
+      "pass": true,
+      "noStore": null,
+      "allowOrigin": "https://neuromorphicscience-sys.github.io"
+    },
+    {
+      "label": "CORS deny",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "noStore": null,
+      "allowOrigin": null
+    },
+    {
+      "label": "POST only",
+      "status": 404,
+      "expected": 404,
+      "pass": true,
+      "noStore": "no-store",
+      "allowOrigin": "https://neuromorphicscience-sys.github.io"
+    },
+    {
+      "label": "missing origin rejected",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "noStore": "no-store",
+      "allowOrigin": null
+    },
+    {
+      "label": "invalid JSON",
+      "status": 400,
+      "expected": 400,
+      "pass": true,
+      "noStore": "no-store",
+      "allowOrigin": "https://neuromorphicscience-sys.github.io"
+    },
+    {
+      "label": "paragraph limit",
+      "status": 413,
+      "expected": 413,
+      "pass": true,
+      "noStore": "no-store",
+      "allowOrigin": "https://neuromorphicscience-sys.github.io"
+    },
+    {
+      "label": "body limit",
+      "status": 413,
+      "expected": 413,
+      "pass": true,
+      "noStore": "no-store",
+      "allowOrigin": "https://neuromorphicscience-sys.github.io"
+    }
+  ],
+  "pass": true,
+  "rateLimit": "Configured 10 per IP per 60s per Cloudflare location; not a strict global quota."
+}

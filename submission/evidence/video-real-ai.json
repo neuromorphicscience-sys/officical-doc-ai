@@ -1,0 +1,17 @@
+{
+  "url": "https://neuromorphicscience-sys.github.io/officical-doc-ai/",
+  "response": "actual production network response during final video recording",
+  "source": "deepseek",
+  "documentType": "通知",
+  "confidence": 0.98,
+  "blocks": 18,
+  "roles": [
+    "attachment_note",
+    "body",
+    "date",
+    "heading",
+    "issuer",
+    "recipient",
+    "title"
+  ]
+}

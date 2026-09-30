@@ -32,7 +32,7 @@ const report={url:URL,startedAt:new Date().toISOString(),documents:[],responsive
    const geometry=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth}));
    assert(geometry.scroll<=geometry.width,`${state} overflow at ${width}: ${geometry.scroll}`);
    report.responsive.push({state,width,height,...geometry,pass:true});
-   if(width===390){await page.evaluate(state=>document.querySelector(state==='landing'?'.hero':'#result').scrollIntoView({block:'start'}),state);await page.screenshot({path:path.join(SHOTS,state==='landing'?'06-mobile-landing.png':'07-mobile-result.png')});}
+   if(width===390){await page.evaluate(state=>state==='landing'?window.scrollTo(0,0):document.querySelector('#result').scrollIntoView({block:'start'}),state);await page.screenshot({path:path.join(SHOTS,state==='landing'?'06-mobile-landing.png':'07-mobile-result.png')});}
   }
   await page.setViewportSize({width:1440,height:900});
  }
@@ -40,7 +40,7 @@ const report={url:URL,startedAt:new Date().toISOString(),documents:[],responsive
  // Verify keyboard entry and a visible focus indicator.
  await page.goto(URL,{waitUntil:'networkidle'});await page.keyboard.press('Tab');
  report.keyboard={firstFocus:await page.locator(':focus').innerText(),outline:await page.locator(':focus').evaluate(e=>getComputedStyle(e).outlineStyle)};
- assert(report.keyboard.firstFocus.includes('跳转'));assert.notEqual(report.keyboard.outline,'none');
+ assert(report.keyboard.firstFocus.includes('跳转'));assert.notEqual(report.keyboard.outline,'none');await page.locator(':focus').evaluate(e=>e.blur());
  async function runDocument(relative,label,requiredRoles,screenshot=false){
   await page.setInputFiles('#docx-file',path.resolve(ROOT,relative));
   await page.locator('#workspace').scrollIntoViewIfNeeded();

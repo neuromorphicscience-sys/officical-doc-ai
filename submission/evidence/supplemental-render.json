@@ -1,0 +1,23 @@
+[
+  {
+    "case": "05-long",
+    "pages": 10,
+    "rendered": true
+  },
+  {
+    "case": "06-letter",
+    "pages": 3,
+    "rendered": true,
+    "firstPageHasNoNumber": true
+  },
+  {
+    "case": "07-table",
+    "pages": 1,
+    "rendered": true
+  },
+  {
+    "case": "08-image",
+    "pages": 1,
+    "rendered": true
+  }
+]

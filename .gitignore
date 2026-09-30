@@ -16,3 +16,6 @@ tmp/
 submission/*.mp4
 API Key*
 *.trace.zip
+
+__pycache__/
+submission/RELEASE_MANIFEST.json

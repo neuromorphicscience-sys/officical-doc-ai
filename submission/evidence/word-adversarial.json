@@ -1,0 +1,92 @@
+[
+  {
+    "pdf": null,
+    "pages": null,
+    "openAndRepair": false,
+    "wordVersion": "16.0",
+    "saveClose": true,
+    "status": "PASS",
+    "file": "乱格式办公通知示例.docx"
+  },
+  {
+    "pdf": null,
+    "pages": null,
+    "openAndRepair": false,
+    "wordVersion": "16.0",
+    "saveClose": true,
+    "status": "PASS",
+    "file": "01-uniform_规范版.docx"
+  },
+  {
+    "pdf": null,
+    "pages": null,
+    "openAndRepair": false,
+    "wordVersion": "16.0",
+    "saveClose": true,
+    "status": "PASS",
+    "file": "02-numbering_规范版.docx"
+  },
+  {
+    "pdf": null,
+    "pages": null,
+    "openAndRepair": false,
+    "wordVersion": "16.0",
+    "saveClose": true,
+    "status": "PASS",
+    "file": "03-unnumbered_规范版.docx"
+  },
+  {
+    "pdf": null,
+    "pages": null,
+    "openAndRepair": false,
+    "wordVersion": "16.0",
+    "saveClose": true,
+    "status": "PASS",
+    "file": "04-attachments_规范版.docx"
+  },
+  {
+    "pdf": null,
+    "pages": null,
+    "openAndRepair": false,
+    "wordVersion": "16.0",
+    "saveClose": true,
+    "status": "PASS",
+    "file": "05-long_规范版.docx"
+  },
+  {
+    "pdf": null,
+    "pages": null,
+    "openAndRepair": false,
+    "wordVersion": "16.0",
+    "saveClose": true,
+    "status": "PASS",
+    "file": "06-letter_规范版.docx"
+  },
+  {
+    "pdf": null,
+    "pages": null,
+    "openAndRepair": false,
+    "wordVersion": "16.0",
+    "saveClose": true,
+    "status": "PASS",
+    "file": "07-table_规范版.docx"
+  },
+  {
+    "pdf": null,
+    "pages": null,
+    "openAndRepair": false,
+    "wordVersion": "16.0",
+    "saveClose": true,
+    "status": "PASS",
+    "file": "08-image_规范版.docx"
+  },
+  {
+    "pdf": null,
+    "pages": null,
+    "openAndRepair": false,
+    "wordVersion": "16.0",
+    "saveClose": true,
+    "status": "PASS",
+    "file": "09-ambiguous_规范版.docx"
+  }
+]

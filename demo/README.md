@@ -20,3 +20,7 @@
 | 10 | cases/10-corrupt.docx | 故意损坏，预期拒绝并给出恢复提示 |
 
 确定性格式测试与真实 AI 测试分开记录。CASE 09 的低置信度由受控契约测试验证，不宣称大模型每次都产生固定分值。生成脚本：`python scripts/release/create-fixtures.py`；需要 python-docx、Pillow。
+
+## 已验收的真实输出
+
+`乱格式办公通知示例_规范版.docx` 是正式视频中从生产网站实际下载的文件，未经 Word 另存修改。与主样本正文逐字一致，并通过独立 OOXML 和 Word 打开/保存检查。可将两份文档并排打开作现场对照。视觉分页及字体以目标 Word 环境为准。

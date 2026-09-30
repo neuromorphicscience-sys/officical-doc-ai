@@ -1,0 +1,39 @@
+{
+  "pass": true,
+  "checks": [
+    {
+      "name": "keyboard file selection Enter",
+      "pass": true
+    },
+    {
+      "name": "keyboard file selection Space",
+      "pass": true
+    },
+    {
+      "name": "drag-over and file drop",
+      "pass": true
+    },
+    {
+      "name": "replacement and long filename at 390px",
+      "pass": true
+    },
+    {
+      "name": "remove resets CTA",
+      "pass": true
+    },
+    {
+      "name": "client 50MB limit",
+      "pass": true
+    },
+    {
+      "name": "low-confidence review and manual recovery",
+      "mode": "controlled contract injection; not a real AI result",
+      "pass": true
+    },
+    {
+      "name": "numbering-conflict review and manual recovery",
+      "mode": "controlled contract injection; not a real AI result",
+      "pass": true
+    }
+  ]
+}

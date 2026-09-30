@@ -4,6 +4,7 @@ import subprocess, re, json, urllib.request, urllib.error
 ROOT=Path(__file__).resolve().parents[2]
 patterns=[re.compile(rb'sk-[A-Za-z0-9_-]{20,}'),re.compile(rb'gh[pousr]_[A-Za-z0-9]{20,}'),re.compile(rb'-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----')]
 files=[ROOT/p for p in subprocess.check_output(['git','ls-files','-z'],cwd=ROOT).decode().split('\0') if p]
+files += [ROOT/p for p in subprocess.check_output(['git','ls-files','--others','--exclude-standard','-z'],cwd=ROOT).decode().split('\0') if p]
 files+=list((ROOT/'dist').rglob('*'))+list((ROOT/'submission').rglob('*'))
 findings=[];scanned=0
 for p in set(files):
