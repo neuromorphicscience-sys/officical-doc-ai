@@ -20,6 +20,7 @@ export function validateAnalysis(extracted: ExtractedDocument, analysis: Structu
     if (block.id < 0 || block.id >= extracted.paragraphs.length) {
       issues.push({ severity: 'error', code: 'OUT_OF_RANGE', message: `AI 返回了不存在的段落 ID ${block.id}。`, paragraphId: block.id })
     }
+    if (block.role === 'unknown') issues.push({ severity: 'warning', code: 'UNKNOWN_ROLE', message: `段落 ${block.id} 的角色尚不确定，请人工确认。`, paragraphId: block.id })
     if (block.role === 'heading' && !block.level) {
       issues.push({ severity: 'warning', code: 'HEADING_NO_LEVEL', message: `段落 ${block.id} 被识别为标题但没有层级，将按一级标题处理。`, paragraphId: block.id })
     }

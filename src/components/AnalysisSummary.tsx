@@ -17,7 +17,8 @@ export default function AnalysisSummary({ extracted, analysis }: Props) {
     ['四级标题', headingCount(4)],
     ['正文', count('body')],
     ['附件相关', count('attachment_note') + count('attachment_marker') + count('attachment_title')],
-    ['落款 / 日期', count('issuer') + count('date')],
+    ['落款', count('issuer')],
+    ['日期', count('date')],
   ]
 
   return (

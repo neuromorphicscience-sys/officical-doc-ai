@@ -10,6 +10,7 @@ export default function SettingsPanel() {
 
   const save = () => {
     setProxyUrl(url)
+    window.dispatchEvent(new Event('ai-service-change'))
     setSaved(true)
     setTimeout(() => setSaved(false), 1600)
   }
@@ -21,7 +22,7 @@ export default function SettingsPanel() {
       </button>
       {open && (
         <div className="settings-card">
-          <div className="settings-card-head"><div><span className="eyebrow">SECURE PROXY</span><h3>AI 服务设置</h3></div><button className="close-button" onClick={() => setOpen(false)}>×</button></div>
+          <div className="settings-card-head"><div><span className="eyebrow">SECURE PROXY</span><h3>AI 服务设置</h3></div><button className="close-button" aria-label="关闭 AI 服务设置" onClick={() => setOpen(false)}>×</button></div>
           <label htmlFor="proxy">Cloudflare Worker URL</label>
           <div className="settings-row">
             <input id="proxy" value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://official-doc-ai-proxy.xxx.workers.dev" />

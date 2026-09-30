@@ -33,6 +33,10 @@ export function ensureChild(parent: Element, localName: string, beforeLocalNames
 }
 
 export function setWAttr(el: Element, name: string, value: string) {
+  // Remove the qualified attribute too: lightweight XML DOMs may otherwise
+  // serialize duplicate attributes when replacing a parsed namespace attribute.
+  el.removeAttributeNS(W_NS, name)
+  el.removeAttribute(`w:${name}`)
   el.setAttributeNS(W_NS, `w:${name}`, value)
 }
 

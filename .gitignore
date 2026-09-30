@@ -9,3 +9,10 @@ worker/.env
 *.log
 coverage/
 *.tsbuildinfo
+
+.playwright-cli/
+output/
+tmp/
+submission/*.mp4
+API Key*
+*.trace.zip

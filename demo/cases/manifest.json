@@ -1,0 +1,51 @@
+[
+  {
+    "file": "01-uniform.docx",
+    "paragraphs": 18,
+    "kind": "uniform"
+  },
+  {
+    "file": "02-numbering.docx",
+    "paragraphs": 10,
+    "kind": "numbering"
+  },
+  {
+    "file": "03-unnumbered.docx",
+    "paragraphs": 11,
+    "kind": "unnumbered"
+  },
+  {
+    "file": "04-attachments.docx",
+    "paragraphs": 7,
+    "kind": "attachments"
+  },
+  {
+    "file": "05-long.docx",
+    "paragraphs": 71,
+    "kind": "long"
+  },
+  {
+    "file": "06-letter.docx",
+    "paragraphs": 30,
+    "kind": "letter"
+  },
+  {
+    "file": "07-table.docx",
+    "paragraphs": 7,
+    "kind": "table"
+  },
+  {
+    "file": "08-image.docx",
+    "paragraphs": 7,
+    "kind": "image"
+  },
+  {
+    "file": "09-ambiguous.docx",
+    "paragraphs": 7,
+    "kind": "ambiguous"
+  },
+  {
+    "file": "10-corrupt.docx",
+    "expected": "reject"
+  }
+]

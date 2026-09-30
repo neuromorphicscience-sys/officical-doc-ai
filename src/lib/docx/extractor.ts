@@ -65,15 +65,20 @@ function estimatePages(paragraphs: ExtractedParagraph[]): number {
   return Math.max(1, Math.ceil(lines / 22))
 }
 
-export async function extractDocx(file: File): Promise<{ zip: JSZip; extracted: ExtractedDocument }> {
+export async function extractDocx(file: File, onExtract?: () => void): Promise<{ zip: JSZip; extracted: ExtractedDocument }> {
   if (!file.name.toLowerCase().endsWith('.docx')) throw new Error('仅支持 .docx 文件。')
   if (file.size > 50 * 1024 * 1024) throw new Error('文档超长或文件过大：当前版本最多读取 50 MB 的 DOCX。')
-  const zip = await JSZip.loadAsync(await file.arrayBuffer())
+  if (!file.size) throw new Error('文件为空，请选择包含正文的 DOCX 文档。')
+  let zip: JSZip
+  try { zip = await JSZip.loadAsync(await file.arrayBuffer()) }
+  catch { throw new Error('DOCX 文件已损坏或不是有效的 Word 文档，请在 Word 中重新另存为 .docx。') }
+  onExtract?.()
   const entry = zip.file('word/document.xml')
   if (!entry) throw new Error('不是有效的 DOCX：缺少 word/document.xml。')
 
   const xml = await entry.async('string')
   const doc = parseXml(xml)
+  if (doc.documentElement.localName !== 'document' || doc.documentElement.namespaceURI !== W_NS) throw new Error('DOCX 文档主体无效，请在 Word 中重新另存。')
   const nodes = getAllParagraphs(doc)
   const paragraphs: ExtractedParagraph[] = nodes.map((p, id) => ({
     id,
@@ -83,6 +88,7 @@ export async function extractDocx(file: File): Promise<{ zip: JSZip; extracted: 
 
   // Keep empty paragraphs in the paragraph list for stable ID mapping, but semantic text is line based.
   const text = paragraphs.map((p) => p.text).join('\n')
+  if (!text.trim()) throw new Error('文档没有可识别的正文文字，请选择包含文本的 DOCX。')
   return {
     zip,
     extracted: {

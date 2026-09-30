@@ -240,6 +240,7 @@ export async function formatDocx(
   extracted: ExtractedDocument,
   analysis: StructureAnalysis,
   onIntegrityCheck?: () => void,
+  onGenerating?: () => void,
 ): Promise<FormatResult> {
   const documentEntry = zip.file('word/document.xml')
   if (!documentEntry) throw new Error('DOCX 缺少 word/document.xml。')
@@ -280,6 +281,7 @@ export async function formatDocx(
   const contentPreserved = beforeHash === afterHash
   if (!contentPreserved) throw new Error('内容完整性校验失败：格式化过程意外改变了正文字符，已阻止输出。')
 
+  onGenerating?.()
   const blob = await zip.generateAsync({
     type: 'blob',
     mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
