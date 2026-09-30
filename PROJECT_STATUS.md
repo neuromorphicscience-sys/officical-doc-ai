@@ -35,15 +35,16 @@
 ## GitHub 与部署
 
 - 仓库：[neuromorphicscience-sys/officical-doc-ai](https://github.com/neuromorphicscience-sys/officical-doc-ai)，保留仓库现有拼写。
-- 本轮代码在本地提交为 `fd04d30a2866fcccf7ac581f6286cd27f7350ea7`，并通过 GitHub 插件以普通快进方式推送到远端；远端代码提交为 `376f0bd746a1c47aef8b0ea0253c71473123103b`。没有强推或改写远端历史。
-- 远端最新 `main` 状态文档提交为 `584c6d5868c7e8fa3381c3f3f02852f3f01afe32`。对应 CI run `36700978444` 和 Pages run `36700978432` 均完成且成功，web、worker、Pages build、deploy jobs 全部绿色。
-- GitHub Pages 已部署：[https://neuromorphicscience-sys.github.io/officical-doc-ai/](https://neuromorphicscience-sys.github.io/officical-doc-ai/)。Playwright 浏览器确认页面标题及前端 UI 正常渲染；HTML、JS、CSS 请求均为 200。JS MIME 为 `application/javascript`，CSS MIME 为 `text/css`。
-- Cloudflare Worker 尚未部署；未配置 DeepSeek API Key，也未配置 Pages 的 `VITE_AI_ENDPOINT`。前端在这之前以明确标识的本地演示模式运行。
+- 通过 GitHub 插件以普通快进方式推送到远端，没有强推或改写远端历史。Worker 与 Pages endpoint 回退配置提交为 `5aca805c824e5bb21f01125aa5a1c037a31ec251`；CI run [`36705926747`](https://github.com/neuromorphicscience-sys/officical-doc-ai/actions/runs/36705926747) 与 Pages run [`36705926454`](https://github.com/neuromorphicscience-sys/officical-doc-ai/actions/runs/36705926454) 均成功。
+- GitHub Pages 已部署：[https://neuromorphicscience-sys.github.io/officical-doc-ai/](https://neuromorphicscience-sys.github.io/officical-doc-ai/)。Pages 构建优先读取 Actions Repository variable `VITE_AI_ENDPOINT`，其次读 `VITE_AI_PROXY_URL`，未设置时回退到下方 Worker URL；因此插件未提供变量写入接口时，生产站点仍可直接连接 Worker。
+- Cloudflare Worker 已部署：[https://official-doc-ai-proxy.neuromorphicscience.workers.dev](https://official-doc-ai-proxy.neuromorphicscience.workers.dev)。`/health` 返回 HTTP 200。`DEEPSEEK_API_KEY` 已作为 Cloudflare Worker Secret 配置；密钥文件留在仓库外，精确值扫描未在仓库文件中发现该密钥。
+- Worker 的 `AI_RATE_LIMITER` 已配置为每个客户端 IP、每个 Cloudflare 位置每 60 秒 10 次。实现与部署配置均通过 CI；但突发行为测试没有观察到 429，故不应把它视为严格的全局限额。
+- Playwright 在生产 Pages 上使用合成 DOCX 完成了 DeepSeek 结构识别、规范化、下载和重新载入。识别结果来自 `deepseek`；输出 226 个字符与输入一致，SHA-256 一致，新增/删除/修改字符均为 0，共执行 14 项格式操作。
 
 ## 未完成事项与下一步
 
-1. 在 Cloudflare 登录后部署 Worker，通过 Wrangler Secret 配置 `DEEPSEEK_API_KEY`；再将 Worker URL 配为 GitHub Actions Repository variable `VITE_AI_ENDPOINT` 并重新部署 Pages，以启用真正的 DeepSeek 语义识别。
-2. 在真实 Word 与目标办公环境中验收排版；目前测试覆盖 OOXML 结构，不等同于 Microsoft Word 的分页/视觉回归测试。
+1. 在真实 Word 与目标办公环境中验收排版；目前测试覆盖 OOXML 结构，不等同于 Microsoft Word 的分页/视觉回归测试。
+2. 如需在 GitHub 仓库集中管理 endpoint，可添加 Actions Repository variable `VITE_AI_ENDPOINT`，值为上方 Worker URL；当前 Pages workflow 已有同值回退配置。
 
 ## 技术风险与限制
 
@@ -51,4 +52,4 @@
 - 规范字体名称写入 DOCX，但字体文件未打包；缺少对应字体时办公软件可能替换字体。没有提供的专属模板规则不会被臆造。
 - OOXML 表格与图片通过 fixture 验证；复杂文本框、嵌入对象、修订、脚注/尾注等复杂文档元素仍需用真实样本验收。
 - 未配置 Worker 时 heuristic 只用于演示，不等于真实语义分析；低置信度识别需要用户检查并修正。
-- Worker 仍未部署，线上前端以明确标注的本地演示模式运行。Playwright 控制台仅报告浏览器默认请求的 `/favicon.ico` 404；不影响页面、JS 或 CSS 加载。
+- Cloudflare Rate Limiting 是按边缘位置工作的宽松限制，突发请求可能超过配置值；如需严格配额，应在业务层加入稳定用户身份和配额存储。
