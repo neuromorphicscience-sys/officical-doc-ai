@@ -77,9 +77,13 @@ function setParagraphLayout(
     ind.removeAttributeNS(W_NS, name)
     ind.removeAttribute(`w:${name}`)
   })
-  if (opts.firstLineChars !== undefined) setWAttr(ind, 'firstLineChars', String(opts.firstLineChars * 100))
-  if (opts.leftChars !== undefined) setWAttr(ind, 'leftChars', String(opts.leftChars * 100))
-  if (opts.rightChars !== undefined) setWAttr(ind, 'rightChars', String(opts.rightChars * 100))
+  // Character indents are authoritative in Word; equivalent twips provide a
+  // fallback for office renderers that ignore *Chars. Explicit zeros also
+  // prevent a source paragraph style from leaking into title/recipient layout.
+  for (const [name, chars] of [['firstLine', opts.firstLineChars ?? 0], ['left', opts.leftChars ?? 0], ['right', opts.rightChars ?? 0]] as const) {
+    setWAttr(ind, name, String(chars * OFFICIAL_STANDARD.body.sizePt * 20))
+    setWAttr(ind, `${name}Chars`, String(chars * 100))
+  }
 
   const spacing = ensurePPrChild(pPr, 'spacing')
   setWAttr(spacing, 'before', ptToTwips(opts.beforePt ?? 0))
@@ -101,6 +105,7 @@ function setRunTypography(p: Element, eastAsiaFont: string, latinFont: string, s
   for (const run of runs) {
     const rPr = ensureRPr(run)
     const fonts = ensureRPrChild(rPr, 'rFonts')
+    for (const name of ['asciiTheme', 'hAnsiTheme', 'eastAsiaTheme', 'cstheme']) { fonts.removeAttributeNS(W_NS, name); fonts.removeAttribute(`w:${name}`) }
     setWAttr(fonts, 'ascii', latinFont)
     setWAttr(fonts, 'hAnsi', latinFont)
     setWAttr(fonts, 'eastAsia', eastAsiaFont)
@@ -120,7 +125,8 @@ function setRunTypography(p: Element, eastAsiaFont: string, latinFont: string, s
       const bCs = ensureRPrChild(rPr, 'bCs')
       setWAttr(bCs, 'val', '1')
     } else {
-      removeChildrenByLocalName(rPr, ['b', 'bCs'])
+      setWAttr(ensureRPrChild(rPr, 'b'), 'val', '0')
+      setWAttr(ensureRPrChild(rPr, 'bCs'), 'val', '0')
     }
   }
 }

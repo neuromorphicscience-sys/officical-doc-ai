@@ -95,6 +95,20 @@ describe('release: output safety and recovery', () => {
     zip.file('word/document.xml', (await zip.file('word/document.xml')!.async('string')).replace('各学院','另一个学院'))
     await expect(formatDocx(zip,extracted,analysis)).rejects.toThrow('正文与已分析版本不一致')
   })
+  it('writes equivalent twip indents and explicitly disables inherited bold and theme fonts', async () => {
+    const {zip,extracted} = await extractDocx(fixture('01-uniform'))
+    zip.file('word/document.xml', (await zip.file('word/document.xml')!.async('string')).replace('w:ascii="Microsoft YaHei"', 'w:asciiTheme="minorHAnsi" w:eastAsiaTheme="minorEastAsia" w:ascii="Microsoft YaHei"'))
+    const result = await formatDocx(zip,extracted,createDemoAnalysis(extracted.paragraphs,'auto','test'))
+    const output=await JSZip.loadAsync(await result.blob.arrayBuffer())
+    const doc=parseXml(await output.file('word/document.xml')!.async('string'))
+    const paras=getElementsByNamespace(doc,W_NS,'p')
+    const bodyIndent=getElementsByNamespace(paras[2],W_NS,'ind')[0]
+    expect(getWAttr(bodyIndent,'firstLine')).toBe('640')
+    expect(getWAttr(bodyIndent,'firstLineChars')).toBe('200')
+    expect(getWAttr(getElementsByNamespace(paras[0],W_NS,'ind')[0],'firstLine')).toBe('0')
+    expect(getWAttr(getElementsByNamespace(paras[0],W_NS,'b')[0],'val')).toBe('0')
+    expect(getWAttr(getElementsByNamespace(paras[0],W_NS,'rFonts')[0],'eastAsiaTheme')).toBeUndefined()
+  })
   it('propagates generation failure so the UI can offer retry', async () => {
     const {zip,extracted} = await extractDocx(fixture('01-uniform'))
     zip.generateAsync = (() => Promise.reject(new Error('生成失败：存储空间不足'))) as typeof zip.generateAsync
