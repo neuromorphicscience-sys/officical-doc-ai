@@ -4,6 +4,9 @@ interface Env {
   DEEPSEEK_API_KEY: string
   DEEPSEEK_MODEL?: string
   ALLOWED_ORIGINS?: string
+  AI_RATE_LIMITER: {
+    limit(options: { key: string }): Promise<{ success: boolean }>
+  }
 }
 
 const MAX_PARAGRAPHS = 1200
@@ -323,6 +326,9 @@ export default {
     try {
       assertOrigin(request, env)
       if (!env.DEEPSEEK_API_KEY) return json({ error: 'server_misconfigured', detail: 'DEEPSEEK_API_KEY is not configured.' }, 500, headers)
+      const clientIp = request.headers.get('CF-Connecting-IP') || 'unknown'
+      const { success } = await env.AI_RATE_LIMITER.limit({ key: `structure:${clientIp}` })
+      if (!success) return json({ error: 'rate_limited', detail: 'Request limit reached. Please retry after one minute.' }, 429, headers)
       const contentLength = Number(request.headers.get('Content-Length'))
       if (Number.isFinite(contentLength) && contentLength > MAX_BODY_BYTES) return json({ error: 'payload_too_large' }, 413, headers)
       const body = await request.text()

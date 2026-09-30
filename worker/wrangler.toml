@@ -6,3 +6,12 @@ compatibility_date = "2026-09-30"
 # Comma-separated exact origins. GitHub Pages uses the account origin regardless of repo path.
 ALLOWED_ORIGINS = "http://localhost:5173,https://neuromorphicscience-sys.github.io"
 DEEPSEEK_MODEL = "deepseek-chat"
+
+# Demo abuse guard: 10 /v1/structure requests per minute per client IP and Cloudflare location.
+[[ratelimits]]
+name = "AI_RATE_LIMITER"
+namespace_id = "91410300829"
+
+[ratelimits.simple]
+limit = 10
+period = 60
