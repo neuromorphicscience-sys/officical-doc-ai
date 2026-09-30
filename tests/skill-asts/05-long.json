@@ -1,0 +1,438 @@
+{
+  "documentType": "报告",
+  "confidence": 0.98,
+  "source": "host-agent",
+  "inputSHA256": "3ec8a6a23ee9e906125a82190c51131f1193efc33281c4271a648c53a19ff8b1",
+  "blocks": [
+    {
+      "id": 0,
+      "role": "title",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 1,
+      "role": "heading",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。",
+      "level": 1
+    },
+    {
+      "id": 2,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 3,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 4,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 5,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 6,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 7,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 8,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 9,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 10,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 11,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 12,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 13,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 14,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 15,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 16,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 17,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 18,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 19,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 20,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 21,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 22,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 23,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 24,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 25,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 26,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 27,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 28,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 29,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 30,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 31,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 32,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 33,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 34,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 35,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 36,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 37,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 38,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 39,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 40,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 41,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 42,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 43,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 44,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 45,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 46,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 47,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 48,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 49,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 50,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 51,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 52,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 53,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 54,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 55,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 56,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 57,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 58,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 59,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 60,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 61,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 62,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 63,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 64,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 65,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 66,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 67,
+      "role": "heading",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。",
+      "level": 1
+    },
+    {
+      "id": 68,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 69,
+      "role": "issuer",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 70,
+      "role": "date",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    }
+  ],
+  "warnings": [],
+  "suggestions": []
+}

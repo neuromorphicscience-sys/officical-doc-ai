@@ -17,7 +17,7 @@ report=f'''# 最终验收报告
 ## 版本与生产部署
 
 - **Final software commit SHA：`{sha}`**，这是视频及完整生产 E2E 对应的软件版本。
-- 最终仓库提交另包含验收材料与测试脚本；其 **Final commit SHA**（`finalCommitSHA`）和最终 CI/Pages 运行记录见提交包同目录的 **`RELEASE_MANIFEST.json`**（封包时根据 Git HEAD 生成）。材料提交不改变已验收的 UI、业务代码或 Worker。
+- 最终仓库提交另包含独立 Skill、验收材料与测试脚本；其 **Final commit SHA**（`finalCommitSHA`）和最终 CI/Pages 运行记录见提交包同目录的 **`RELEASE_MANIFEST.json`**（封包时根据 Git HEAD 生成）。新增 Skill 不改变已验收的 Web UI、业务代码或 Worker。
 - [Production Pages](https://neuromorphicscience-sys.github.io/officical-doc-ai/)
 - [GitHub](https://github.com/neuromorphicscience-sys/officical-doc-ai)
 - [Worker](https://official-doc-ai-proxy.neuromorphicscience.workers.dev) · [Health](https://official-doc-ai-proxy.neuromorphicscience.workers.dev/health)：HTTP 200，no-store。
@@ -29,7 +29,7 @@ report=f'''# 最终验收报告
 
 | 验收项 | 结果与证据 |
 |---|---|
-| 单元与集成测试 | **45/45 PASS**，6 个测试文件；新增 14 项发布对抗及安全输出检查 |
+| 单元与集成测试 | Web 冻结时 **45/45 PASS**，6 个测试文件；包含 14 项发布对抗及安全输出检查。本次增加 Skill 后全套 55/55，详见末节 |
 | 根目录类型检查 / 构建 | PASS；Worker 类型检查 PASS；CI 重新验证干净安装、测试与构建 |
 | Production E2E | **PASS**，真实生产 URL；页面、CSS/JS、上传、AI、结构、格式化、完整性、下载、重新载入与第二次处理 |
 | DeepSeek E2E | **PASS**，5 次真实生产响应均为 `source=deepseek`；正式视频另有一次真实调用 |
@@ -122,12 +122,49 @@ report=f'''# 最终验收报告
 
 以上为公开的支持边界，不影响本次已验证的核心通知、基础公文与内容保护流程。全部 P0 项通过，最终判定 **READY_FOR_SUBMISSION**。
 '''
+if (E/'skill-validation.json').exists():
+ skill=json.loads((E/'skill-validation.json').read_text())
+ assert all(skill[k]=='PASS' for k in ['skillBundle','skillExecution','skillDOCXIntegrity'])
+ word_path=ROOT/'output/word-check/word-results-skill-parity.json'
+ word_note=''
+ if word_path.exists():
+  word=json.loads(word_path.read_text(encoding='utf-8-sig'))
+  assert len(word)==10 and all(x['status']=='PASS' and not x['openAndRepair'] for x in word)
+  (E/'word-skill.json').write_text(json.dumps(word,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+  word_note='9 份 Skill 原始输出及演示原文均经 Word 16.0 COM 打开、保存、关闭通过（OpenAndRepair=false）；检查在副本上执行，交付的 DOCX 未经 Word 修复或重存。没有新增 Word PDF/分页通过声明。见 [word-skill.json](evidence/word-skill.json)。'
+ report+=f'''
+## 可安装 Skill 最终验收
+
+Skill bundle: **{skill['skillBundle']}**
+
+Skill execution: **{skill['skillExecution']}**
+
+Skill DOCX integrity: **{skill['skillDOCXIntegrity']}**
+
+Skill ZIP: `{skill['windowsZip']}`
+
+执行环境绝对路径：`{skill['zip']}`。下载 [official-docx-formatter-skill.zip](official-docx-formatter-skill.zip)。
+
+- ZIP 可解压、CRC 正确，单一顶层目录 `official-docx-formatter/`，恰好一个 SKILL.md，YAML frontmatter 合法，10 个必要文件。逐成员扫描无 API Key、字体、node_modules、临时文件或用户私密文档；仅打包明确列出的源码和参考材料。
+- Web 版使用 DeepSeek 完成语义理解；Skill 版由宿主 Agent 完成同样的结构判断，二者共用确定性公文规则与 DOCX 格式化逻辑。Python 为独立实现，共用核心 AST 协议与规则快照；增加 host-agent 来源及输入文件哈希绑定。
+- Python 离线执行与保护测试 **{skill['executionTests']['tests']}/{skill['executionTests']['tests']} PASS**：9 份有效样本均完成 inspect → 宿主已核对的 structure JSON → format → validate → output reopen，覆盖 flat style、1–4 级标题、无编号层级、附件/附注、长文档、函、表格、图片；损坏 DOCX 正确返回退出码 10。测试 AST 是宿主阅读全文后的标注，不充当运行时固定分类器。
+- 格式注入、错文件 AST、漏段/重复 ID、低置信度、unknown、编号冲突、正文及图片篡改、输出覆盖、非法 XML/缺失部件、签名包均有明确拒绝检查。
+- 全套 Vitest **{skill['vitest']['passed']}/{skill['vitest']['total']} PASS**，含 10 项新增对照测试：规则与 Web 常量完全一致；9 份相同 AST 的两种实现，字体/字号、段落属性、页面尺寸/边距、页码及文字哈希一致。生产 Web 逻辑没有改动。
+- 最终 ZIP 解压后，在独立目录关闭第三方 site-packages 并阻止 socket 创建，使用 Python {skill['extractedExecution']['python']} 成功执行主样本；输入字节未改，375 字符及 SHA-256 一致，新增/删除/修改均为 0。实际输出见 [Skill 规范版](skill-demo/乱格式办公通知示例_规范版.docx)。未执行外部 Skill 库上传，验收范围为格式、封包及解压后实际运行。
+
+{word_note}
+
+证据：[skill-validation.json](evidence/skill-validation.json)、[skill-execution.json](evidence/skill-execution.json)。ZIP SHA-256：`{skill['sha256']}`。包大小：{skill['sizeBytes']} 字节。
+
+Skill 脚本仅依赖 Python 3.9+ 标准库；宿主模型的数据处理方式取决于所用平台。字体需由办公环境提供，复杂对象、精确视觉分页的边界与既有规则一致。
+'''
 (SUB/'FINAL_ACCEPTANCE_REPORT.md').write_text(report)
 (SUB/'README-FIRST.txt').write_text('''FINAL_STATUS = READY_FOR_SUBMISSION
 在线：https://neuromorphicscience-sys.github.io/officical-doc-ai/
 视频：office-doc-ai-demo.mp4（静音，中文字幕已烧录）
 演示原文：../demo/乱格式办公通知示例.docx
 实际输出：../demo/乱格式办公通知示例_规范版.docx
+独立 Skill：official-docx-formatter-skill.zip（宿主 Agent + Python 3.9+，无 API Key）
 GitHub：https://github.com/neuromorphicscience-sys/officical-doc-ai
 验收：FINAL_ACCEPTANCE_REPORT.md；版本及最终 CI：RELEASE_MANIFEST.json
 ''')

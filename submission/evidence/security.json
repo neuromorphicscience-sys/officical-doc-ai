@@ -1,6 +1,6 @@
 {
-  "filesScanned": 112,
-  "historicalBlobsScanned": 141,
+  "filesScanned": 142,
+  "historicalBlobsScanned": 181,
   "secretFindings": [],
   "externalKeyFileRead": false,
   "workerChecks": [

@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "source": "命题方《公文格式要求》在 docs/rule-mapping.md 与 src/lib/rules/officialRules.ts 中的已验收映射",
+  "sourceCommit": "cd1f55e29964a7f5855b2eec9f8dd72d3a03ebea",
+  "rulesSourceSHA256": "2938f93c709901382d4937a35a6b966a8f53ff5978b05a4d1a56fce21588d180",
+  "standard": {
+    "page": {
+      "widthMm": 210,
+      "heightMm": 297,
+      "marginTopMm": 37,
+      "marginBottomMm": 35,
+      "marginLeftMm": 27,
+      "marginRightMm": 27,
+      "linesPerPage": 22,
+      "lineSpacingPt": 28.8
+    },
+    "title": {
+      "eastAsiaFont": "方正小标宋_GBK",
+      "latinFont": "Times New Roman",
+      "sizePt": 22,
+      "bold": false,
+      "alignment": "center"
+    },
+    "body": {
+      "eastAsiaFont": "仿宋_GB2312",
+      "latinFont": "Times New Roman",
+      "sizePt": 16,
+      "alignment": "both",
+      "firstLineChars": 2
+    },
+    "heading1": {
+      "eastAsiaFont": "黑体",
+      "latinFont": "Times New Roman",
+      "sizePt": 16,
+      "bold": false
+    },
+    "heading2": {
+      "eastAsiaFont": "楷体_GB2312",
+      "latinFont": "Times New Roman",
+      "sizePt": 16,
+      "bold": false
+    },
+    "heading3": {
+      "eastAsiaFont": "仿宋_GB2312",
+      "latinFont": "Times New Roman",
+      "sizePt": 16,
+      "bold": false
+    },
+    "heading4": {
+      "eastAsiaFont": "仿宋_GB2312",
+      "latinFont": "Times New Roman",
+      "sizePt": 16,
+      "bold": false
+    },
+    "pageNumber": {
+      "eastAsiaFont": "宋体",
+      "latinFont": "Times New Roman",
+      "sizePt": 14
+    }
+  },
+  "documentTypes": [
+    "通知",
+    "请示",
+    "报告",
+    "函",
+    "会议纪要",
+    "工作总结",
+    "规章制度",
+    "其他"
+  ],
+  "layouts": {
+    "title": {
+      "alignment": "center"
+    },
+    "heading": {
+      "alignment": "left",
+      "keepNext": true
+    },
+    "recipient": {
+      "alignment": "left"
+    },
+    "body": {
+      "alignment": "both",
+      "firstLineChars": 2
+    },
+    "attachment_note": {
+      "alignment": "left",
+      "leftChars": 2,
+      "beforeLines": 1
+    },
+    "attachment_marker": {
+      "alignment": "left",
+      "pageBreakBefore": true
+    },
+    "attachment_title": {
+      "alignment": "center",
+      "beforeLines": 1
+    },
+    "issuer": {
+      "alignment": "right",
+      "rightChars": 4,
+      "beforeLines": 2
+    },
+    "date": {
+      "alignment": "right",
+      "rightChars": 4
+    },
+    "annotation": {
+      "alignment": "left",
+      "leftChars": 2
+    }
+  }
+}

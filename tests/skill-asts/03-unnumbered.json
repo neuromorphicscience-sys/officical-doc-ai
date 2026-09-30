@@ -1,0 +1,79 @@
+{
+  "documentType": "通知",
+  "confidence": 0.98,
+  "source": "host-agent",
+  "inputSHA256": "942d575412dc0fb2e7f25569df5386250f78d89379472132734bc5d45a968b48",
+  "blocks": [
+    {
+      "id": 0,
+      "role": "title",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 1,
+      "role": "recipient",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 2,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 3,
+      "role": "heading",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。",
+      "level": 1
+    },
+    {
+      "id": 4,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 5,
+      "role": "heading",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。",
+      "level": 1
+    },
+    {
+      "id": 6,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 7,
+      "role": "heading",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。",
+      "level": 1
+    },
+    {
+      "id": 8,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 9,
+      "role": "issuer",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 10,
+      "role": "date",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    }
+  ],
+  "warnings": [],
+  "suggestions": []
+}

@@ -58,6 +58,18 @@ node scripts/release/production-e2e.cjs
 
 检查生产页面、真实 AI、下载、重载、二次处理、四种视口、axe 无障碍、错误恢复。测试中的故障注入单独记录，不计作真实 AI 成功。Windows 安装 Word 时可运行 `scripts/release/word-check.ps1`，检查原始输出的打开、保存、关闭；`-ExportPdf` 可尝试导出 PDF；本机 Office 导出持续等待，故最终报告只认定打开/保存通过，视觉预览采用明确标注的 LibreOffice 补充渲染。
 
+## 可安装 Skill
+
+[下载独立 Skill ZIP](submission/official-docx-formatter-skill.zip)，源码位于 [skill/official-docx-formatter](skill/official-docx-formatter/SKILL.md)。宿主 Agent 负责全文结构理解，Python 3.9+ 标准库脚本负责确定性 OOXML 排版；无需 API Key、Worker 或网络。与 Web 共用核心 AST、公文规则和格式化逻辑，跨实现测试覆盖 9 份文档。安装及使用见 [交付说明](submission/SUBMISSION.md#可安装-skill)。
+
+```bash
+python3 -B tests/test_skill_execution.py
+node node_modules/vitest/vitest.mjs run --reporter=json --outputFile=output/skill/vitest-results.json
+python3 scripts/release/build-skill-bundle.py
+```
+
+第一条验证离线执行及内容保护，第二条生成全套测试报告，第三条用于发布封包。发布环境需有 PyYAML；安装后的 Skill 本身无第三方依赖。
+
 ## 本地开发
 
 ```bash

@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "contentPreserved": true,
+  "beforeSHA256": "9950b750843c7775983d78fe0f76120b1b98ce096bea25709f015d997939aaa9",
+  "afterSHA256": "9950b750843c7775983d78fe0f76120b1b98ce096bea25709f015d997939aaa9",
+  "originalCharacters": 375,
+  "outputCharacters": 375,
+  "addedCharacters": 0,
+  "deletedCharacters": 0,
+  "modifiedCharacters": 0,
+  "xmlPartsValid": 18,
+  "contentStructurePreserved": true,
+  "tablesPreserved": 0,
+  "protectedPartsByteIdentical": 0,
+  "packagePartsPreserved": 17
+}

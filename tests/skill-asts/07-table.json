@@ -1,0 +1,88 @@
+{
+  "documentType": "通知",
+  "confidence": 0.98,
+  "source": "host-agent",
+  "inputSHA256": "513ea3952a2b5cb9ab0a3ffd6c50b68814716d04e23bec6c3d2fff90755edae5",
+  "blocks": [
+    {
+      "id": 0,
+      "role": "title",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 1,
+      "role": "recipient",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 2,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 3,
+      "role": "attachment_note",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 4,
+      "role": "issuer",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 5,
+      "role": "date",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 6,
+      "role": "annotation",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 7,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 8,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 9,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 10,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 11,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    },
+    {
+      "id": 12,
+      "role": "body",
+      "confidence": 0.98,
+      "rationale": "本次宿主 Agent 阅读完整样本后标注的验收结构；不是运行时识别规则。"
+    }
+  ],
+  "warnings": [],
+  "suggestions": []
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "pdf": null,
+    "pages": null,
+    "openAndRepair": false,
+    "wordVersion": "16.0",
+    "saveClose": true,
+    "status": "PASS",
+    "file": "乱格式办公通知示例.docx"
+  },
+  {
+    "pdf": null,
+    "pages": null,
+    "openAndRepair": false,
+    "wordVersion": "16.0",
+    "saveClose": true,
+    "status": "PASS",
+    "file": "01-uniform.docx"
+  },
+  {
+    "pdf": null,
+    "pages": null,
+    "openAndRepair": false,
+    "wordVersion": "16.0",
+    "saveClose": true,
+    "status": "PASS",
+    "file": "02-numbering.docx"
+  },
+  {
+    "pdf": null,
+    "pages": null,
+    "openAndRepair": false,
+    "wordVersion": "16.0",
+    "saveClose": true,
+    "status": "PASS",
+    "file": "03-unnumbered.docx"
+  },
+  {
+    "pdf": null,
+    "pages": null,
+    "openAndRepair": false,
+    "wordVersion": "16.0",
+    "saveClose": true,
+    "status": "PASS",
+    "file": "04-attachments.docx"
+  },
+  {
+    "pdf": null,
+    "pages": null,
+    "openAndRepair": false,
+    "wordVersion": "16.0",
+    "saveClose": true,
+    "status": "PASS",
+    "file": "05-long.docx"
+  },
+  {
+    "pdf": null,
+    "pages": null,
+    "openAndRepair": false,
+    "wordVersion": "16.0",
+    "saveClose": true,
+    "status": "PASS",
+    "file": "06-letter.docx"
+  },
+  {
+    "pdf": null,
+    "pages": null,
+    "openAndRepair": false,
+    "wordVersion": "16.0",
+    "saveClose": true,
+    "status": "PASS",
+    "file": "07-table.docx"
+  },
+  {
+    "pdf": null,
+    "pages": null,
+    "openAndRepair": false,
+    "wordVersion": "16.0",
+    "saveClose": true,
+    "status": "PASS",
+    "file": "08-image.docx"
+  },
+  {
+    "pdf": null,
+    "pages": null,
+    "openAndRepair": false,
+    "wordVersion": "16.0",
+    "saveClose": true,
+    "status": "PASS",
+    "file": "demo.docx"
+  }
+]

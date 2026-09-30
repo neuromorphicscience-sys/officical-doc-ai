@@ -23,7 +23,10 @@ for asset in re.findall(r'(?:src|href)="(/officical-doc-ai/assets/[^\"]+)"',html
 assert len(assets)>=2
 health=get('https://official-doc-ai-proxy.neuromorphicscience.workers.dev/health');assert health.status==200
 video=json.loads((ROOT/'submission/VIDEO_VALIDATION.json').read_text());assert video['pass'] and video.get('visualQC',{}).get('status')=='PASS'
-manifest={'finalStatus':'READY_FOR_SUBMISSION','finalCommitSHA':sha,'acceptedSoftwareCommitSHA':SOFTWARE,'generatedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'workflows':selected,'production':url,'workerHealth':health.status,'productionAssets':assets,'gitStatus':'clean','remoteMainMatches':True,'materialsOnlySinceSoftwareAcceptance':True,'video':video,'notCommitted':'Final MP4 and this generated manifest are deliberately ignored; included in ZIP.'}
+skill=json.loads((ROOT/'submission/evidence/skill-validation.json').read_text())
+assert all(skill[k]=='PASS' for k in ['skillBundle','skillExecution','skillDOCXIntegrity'])
+assert hashlib.sha256((ROOT/'submission/official-docx-formatter-skill.zip').read_bytes()).hexdigest()==skill['sha256']
+manifest={'finalStatus':'READY_FOR_SUBMISSION','finalCommitSHA':sha,'acceptedSoftwareCommitSHA':SOFTWARE,'generatedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'workflows':selected,'production':url,'workerHealth':health.status,'productionAssets':assets,'gitStatus':'clean','remoteMainMatches':True,'webRuntimeUnchangedSinceSoftwareAcceptance':True,'addedDeliverable':'Standalone host-agent Skill with Python deterministic OOXML formatter','skill':skill,'video':video,'notCommitted':'Final MP4 and this generated manifest are deliberately ignored; included in ZIP.'}
 (ROOT/'submission/RELEASE_MANIFEST.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2))
 archive=ROOT.parent/'official-doc-ai-final-submission.zip'
 files=[]
@@ -38,7 +41,7 @@ with ZipFile(archive,'w',ZIP_DEFLATED,compresslevel=6) as z:
  for p in sorted(files):z.write(p,p.relative_to(ROOT))
 with ZipFile(archive) as z:
  assert z.testzip() is None
- for name in ['submission/office-doc-ai-demo.mp4','submission/office-doc-ai-demo.srt','submission/FINAL_ACCEPTANCE_REPORT.md','submission/RELEASE_MANIFEST.json','demo/乱格式办公通知示例.docx']:assert name in z.namelist()
+ for name in ['submission/official-docx-formatter-skill.zip','submission/office-doc-ai-demo.mp4','submission/office-doc-ai-demo.srt','submission/FINAL_ACCEPTANCE_REPORT.md','submission/RELEASE_MANIFEST.json','demo/乱格式办公通知示例.docx']:assert name in z.namelist()
  digest=hashlib.sha256(z.read('submission/office-doc-ai-demo.mp4')).hexdigest();assert digest==video['sha256']
 ziphash=hashlib.sha256(archive.read_bytes()).hexdigest();archive.with_suffix('.zip.sha256').write_text(ziphash+'  '+archive.name+'\n')
 print(json.dumps({'finalCommit':sha,'CI':'PASS','Pages':'PASS','productionAssetsMatch':True,'gitStatus':'clean','zip':str(archive),'files':len(files),'sizeBytes':archive.stat().st_size,'sha256':ziphash},ensure_ascii=False,indent=2))

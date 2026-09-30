@@ -8,6 +8,16 @@
 - 主演示文件：`../demo/乱格式办公通知示例.docx`，全部内容为虚构示例。
 - 验收详情：[FINAL_ACCEPTANCE_REPORT.md](FINAL_ACCEPTANCE_REPORT.md)。
 
+## 可安装 Skill
+
+下载 [official-docx-formatter-skill.zip](official-docx-formatter-skill.zip)，上传到支持 Skill ZIP 和 Python 执行的 Agent 宿主；也可解压，将唯一顶层目录 `official-docx-formatter/` 安装到宿主的 Skills 目录。需要 Python 3.9+，无需 pip 安装、API Key、GUI 或当前 Worker。
+
+上传 DOCX 后输入“按照学校公文规范整理这个文件”或“把它整理成通知格式”。宿主通读全部段落、生成 Document AST，再调用包内 inspect → format → validate → reopen 脚本，返回新的 DOCX。置信度低或结构有歧义时先复核，默认不改写正文。
+
+**Web 版使用 DeepSeek 完成语义理解；Skill 版由宿主 Agent 完成同样的结构判断，二者共用确定性公文规则与 DOCX 格式化逻辑。** Skill 为相同规则和 OOXML 操作的独立 Python 实现，共用核心 AST 协议；以 9 份文档的相同 AST 对照验证格式结果。没有把模型推理放进固定正则，也不让模型自行选择字体/字号。
+
+ZIP 内仅 10 个必要文件、一个 SKILL.md；不包含测试文档、字体、凭据、依赖目录或临时文件。解压后的独立执行已验证，未代替用户上传到外部 Skill 库。完整性结果见 [skill-validation.json](evidence/skill-validation.json)，实际生成示例见 [Skill 规范版 DOCX](skill-demo/乱格式办公通知示例_规范版.docx)。
+
 ## 核心创新
 
 1. **语义结构恢复**：即使全文完全相同格式、没有正确 Word 标题样式，也可结合全文语义判断标题层级、正文、附件与落款。
@@ -26,4 +36,4 @@
 
 ## 使用边界
 
-仅支持 DOCX；必要文本会发送至 DeepSeek，故不属于完全离线工具。置信度低或显式编号冲突时需人工核对。规范字体依赖使用环境，实际分页以 Word 为准；复杂文本框、SmartArt、OLE、修订等不承诺内部智能重排。视频的 DOCX 页面为 LibreOffice 补充渲染，不宣称等同 Word 分页。
+仅支持 DOCX。Web 版必要文本会发送至 DeepSeek；Skill 的确定性脚本离线运行，宿主模型如何处理文本取决于所用平台。置信度低或显式编号冲突时需人工核对。规范字体依赖使用环境，实际分页以 Word 为准；复杂文本框、SmartArt、OLE、修订等不承诺内部智能重排。视频的 DOCX 页面为 LibreOffice 补充渲染，不宣称等同 Word 分页。
