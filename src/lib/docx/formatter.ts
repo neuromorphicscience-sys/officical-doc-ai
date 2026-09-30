@@ -1,10 +1,11 @@
 import JSZip from 'jszip'
 import type { ExtractedDocument, FormatChange, FormatResult, StructureAnalysis, StructureBlock } from './types'
-import { OFFICIAL_STANDARD } from '../rules/officialRules'
+import { OFFICIAL_STANDARD, typographyForRole } from '../rules/officialRules'
 import { normalizeSemanticText, sha256 } from '../hash'
 import {
   W_NS,
   firstChildByLocalName,
+  getElementsByNamespace,
   getAllParagraphs,
   getWAttr,
   paragraphText,
@@ -96,7 +97,7 @@ function setParagraphLayout(
 }
 
 function setRunTypography(p: Element, eastAsiaFont: string, latinFont: string, sizePt: number, bold: boolean) {
-  const runs = Array.from(p.getElementsByTagNameNS(W_NS, 'r'))
+  const runs = getElementsByNamespace(p, W_NS, 'r')
   for (const run of runs) {
     const rPr = ensureRPr(run)
     const fonts = ensureRPrChild(rPr, 'rFonts')
@@ -128,10 +129,11 @@ function applyBlockFormat(p: Element, block: StructureBlock, changes: FormatChan
   const std = OFFICIAL_STANDARD
   const baseLine = std.page.lineSpacingPt
   const record = (description: string) => changes.push({ paragraphId: block.id, category: block.role, description })
+  const typography = typographyForRole(block.role, block.level ?? 1)
+  if (typography) setRunTypography(p, typography.eastAsiaFont, typography.latinFont, typography.sizePt, typography.bold)
 
   if (block.role === 'title') {
     setParagraphLayout(p, { alignment: 'center', linePt: baseLine })
-    setRunTypography(p, std.title.eastAsiaFont, std.title.latinFont, std.title.sizePt, std.title.bold)
     record('标题：二号方正小标宋_GBK、居中、不加粗')
     return
   }
@@ -140,70 +142,61 @@ function applyBlockFormat(p: Element, block: StructureBlock, changes: FormatChan
     const level = block.level ?? 1
     const cfg = level === 1 ? std.heading1 : level === 2 ? std.heading2 : level === 3 ? std.heading3 : std.heading4
     setParagraphLayout(p, { alignment: 'left', linePt: baseLine, keepNext: true })
-    setRunTypography(p, cfg.eastAsiaFont, cfg.latinFont, cfg.sizePt, cfg.bold)
     record(`第 ${level} 级标题：${cfg.eastAsiaFont}、三号`)
     return
   }
 
   if (block.role === 'recipient') {
     setParagraphLayout(p, { alignment: 'left', linePt: baseLine })
-    setRunTypography(p, std.body.eastAsiaFont, std.body.latinFont, std.body.sizePt, false)
     record('主送机关：三号仿宋、顶格')
     return
   }
 
   if (block.role === 'attachment_note') {
     setParagraphLayout(p, { alignment: 'left', leftChars: 2, beforePt: baseLine, linePt: baseLine })
-    setRunTypography(p, std.body.eastAsiaFont, std.body.latinFont, std.body.sizePt, false)
     record('附件说明：正文下空一行、左空二字')
     return
   }
 
   if (block.role === 'attachment_marker') {
     setParagraphLayout(p, { alignment: 'left', pageBreakBefore: true, linePt: baseLine })
-    setRunTypography(p, std.heading1.eastAsiaFont, std.heading1.latinFont, std.heading1.sizePt, false)
     record('附件标识：另面排版、三号黑体顶格')
     return
   }
 
   if (block.role === 'attachment_title') {
     setParagraphLayout(p, { alignment: 'center', beforePt: baseLine, linePt: baseLine })
-    setRunTypography(p, std.body.eastAsiaFont, std.body.latinFont, std.body.sizePt, false)
     record('附件标题：版心第三行居中')
     return
   }
 
   if (block.role === 'issuer') {
     setParagraphLayout(p, { alignment: 'right', rightChars: 4, beforePt: baseLine * 2, linePt: baseLine })
-    setRunTypography(p, std.body.eastAsiaFont, std.body.latinFont, std.body.sizePt, false)
     record('发文单位署名：与正文间隔并按落款区域排版')
     return
   }
 
   if (block.role === 'date') {
     setParagraphLayout(p, { alignment: 'right', rightChars: 4, linePt: baseLine })
-    setRunTypography(p, std.body.eastAsiaFont, std.body.latinFont, std.body.sizePt, false)
     record('成文日期：右空四字区域排版')
     return
   }
 
   if (block.role === 'annotation') {
     setParagraphLayout(p, { alignment: 'left', leftChars: 2, linePt: baseLine })
-    setRunTypography(p, std.body.eastAsiaFont, std.body.latinFont, std.body.sizePt, false)
     record('附注：居左空二字')
     return
   }
 
   if (block.role === 'body') {
     setParagraphLayout(p, { alignment: 'both', firstLineChars: 2, linePt: baseLine })
-    setRunTypography(p, std.body.eastAsiaFont, std.body.latinFont, std.body.sizePt, false)
     record('正文：三号仿宋、两端对齐、首行缩进2字符、28.8磅行距')
   }
 }
 
 function applyPageSetup(doc: XMLDocument, changes: FormatChange[]) {
   const std = OFFICIAL_STANDARD.page
-  const sectPrs = Array.from(doc.getElementsByTagNameNS(W_NS, 'sectPr'))
+  const sectPrs = getElementsByNamespace(doc, W_NS, 'sectPr')
   for (const sectPr of sectPrs) {
     let pgSz = firstChildByLocalName(sectPr, 'pgSz')
     if (!pgSz) {
@@ -246,14 +239,20 @@ export async function formatDocx(
   zip: JSZip,
   extracted: ExtractedDocument,
   analysis: StructureAnalysis,
+  onIntegrityCheck?: () => void,
 ): Promise<FormatResult> {
   const documentEntry = zip.file('word/document.xml')
   if (!documentEntry) throw new Error('DOCX 缺少 word/document.xml。')
   const doc = parseXml(await documentEntry.async('string'))
   const paragraphs = getAllParagraphs(doc)
+  if (paragraphs.length !== extracted.paragraphs.length) {
+    throw new Error('DOCX 段落结构在分析后发生变化，无法安全对应 AI 角色；请重新处理原文件。')
+  }
   const blocks = ensureAllIdsHaveBlocks(paragraphs.length, analysis)
   const changes: FormatChange[] = []
   const beforeText = normalizeSemanticText(extracted.text)
+  const currentText = normalizeSemanticText(paragraphs.map(paragraphText).join('\n'))
+  if (currentText !== beforeText) throw new Error('DOCX 正文与已分析版本不一致，已阻止格式化。')
   const beforeHash = await sha256(beforeText)
 
   applyPageSetup(doc, changes)
@@ -274,6 +273,7 @@ export async function formatDocx(
 
   zip.file('word/document.xml', serializeXml(doc))
 
+  onIntegrityCheck?.()
   const afterDoc = parseXml(serializeXml(doc))
   const afterText = normalizeSemanticText(getAllParagraphs(afterDoc).map(paragraphText).join('\n'))
   const afterHash = await sha256(afterText)
@@ -287,5 +287,16 @@ export async function formatDocx(
     compressionOptions: { level: 6 },
   })
 
-  return { blob, changes, beforeHash, afterHash, contentPreserved }
+  return {
+    blob,
+    changes,
+    beforeHash,
+    afterHash,
+    contentPreserved,
+    originalCharacters: beforeText.length,
+    outputCharacters: afterText.length,
+    addedCharacters: 0,
+    deletedCharacters: 0,
+    modifiedCharacters: 0,
+  }
 }

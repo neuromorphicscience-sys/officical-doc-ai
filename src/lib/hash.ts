@@ -7,5 +7,5 @@ export async function sha256(text: string): Promise<string> {
 }
 
 export function normalizeSemanticText(text: string): string {
-  return text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').trimEnd()
+  return text.replace(/\r\n/g, '\n').replace(/\r/g, '\n')
 }

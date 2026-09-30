@@ -67,6 +67,7 @@ function estimatePages(paragraphs: ExtractedParagraph[]): number {
 
 export async function extractDocx(file: File): Promise<{ zip: JSZip; extracted: ExtractedDocument }> {
   if (!file.name.toLowerCase().endsWith('.docx')) throw new Error('仅支持 .docx 文件。')
+  if (file.size > 50 * 1024 * 1024) throw new Error('文档超长或文件过大：当前版本最多读取 50 MB 的 DOCX。')
   const zip = await JSZip.loadAsync(await file.arrayBuffer())
   const entry = zip.file('word/document.xml')
   if (!entry) throw new Error('不是有效的 DOCX：缺少 word/document.xml。')

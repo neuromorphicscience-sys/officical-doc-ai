@@ -1,4 +1,5 @@
 import type { ExtractedDocument, StructureAnalysis } from './types'
+import { detectExplicitHeadingLevel } from '../rules/heuristics'
 
 export interface ValidationIssue {
   severity: 'info' | 'warning' | 'error'
@@ -6,13 +7,6 @@ export interface ValidationIssue {
   message: string
   paragraphId?: number
 }
-
-const explicitHeading = [
-  /^\s*[一二三四五六七八九十百]+、/,
-  /^\s*（[一二三四五六七八九十百]+）/,
-  /^\s*\d+[.．]/,
-  /^\s*（\d+）/,
-]
 
 export function validateAnalysis(extracted: ExtractedDocument, analysis: StructureAnalysis): ValidationIssue[] {
   const issues: ValidationIssue[] = []
@@ -29,6 +23,19 @@ export function validateAnalysis(extracted: ExtractedDocument, analysis: Structu
     if (block.role === 'heading' && !block.level) {
       issues.push({ severity: 'warning', code: 'HEADING_NO_LEVEL', message: `段落 ${block.id} 被识别为标题但没有层级，将按一级标题处理。`, paragraphId: block.id })
     }
+    if (analysis.source !== 'demo' && block.confidence !== undefined && block.confidence < 0.65) {
+      issues.push({ severity: 'warning', code: 'LOW_BLOCK_CONFIDENCE', message: `段落 ${block.id} 的结构置信度为 ${Math.round(block.confidence * 100)}%，请人工核对角色。`, paragraphId: block.id })
+    }
+  }
+
+  for (const paragraph of extracted.paragraphs) {
+    if (paragraph.text.trim() && !ids.has(paragraph.id)) {
+      issues.push({ severity: 'error', code: 'MISSING_BLOCK', message: `段落 ${paragraph.id} 尚未分配结构角色，请先人工确认。`, paragraphId: paragraph.id })
+    }
+  }
+
+  if (analysis.confidence < 0.65) {
+    issues.push({ severity: 'warning', code: 'LOW_DOCUMENT_CONFIDENCE', message: `文种判断置信度为 ${Math.round(analysis.confidence * 100)}%，建议人工核对。` })
   }
 
   const titleCount = analysis.blocks.filter((b) => b.role === 'title').length
@@ -38,12 +45,12 @@ export function validateAnalysis(extracted: ExtractedDocument, analysis: Structu
   for (const p of extracted.paragraphs) {
     if (!p.text.trim()) continue
     const block = analysis.blocks.find((b) => b.id === p.id)
-    const ruleLevel = explicitHeading.findIndex((r) => r.test(p.text)) + 1
-    if (ruleLevel && block?.role === 'heading' && block.level && block.level !== ruleLevel) {
+    const ruleLevel = detectExplicitHeadingLevel(p.text)
+    if (ruleLevel && (block?.role !== 'heading' || block.level !== ruleLevel)) {
       issues.push({
-        severity: 'warning',
+        severity: 'error',
         code: 'HEADING_RULE_CONFLICT',
-        message: `段落 ${p.id} 的显式序号更像 ${ruleLevel} 级标题，但 AI 判断为 ${block.level} 级。`,
+        message: `段落 ${p.id} 的显式序号明确对应 ${ruleLevel} 级标题，但当前角色是 ${block?.role ?? '未标注'}${block?.level ? `（${block.level}级）` : ''}；请先手动修正。`,
         paragraphId: p.id,
       })
     }

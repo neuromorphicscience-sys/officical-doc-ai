@@ -25,7 +25,9 @@ export default function AnalysisSummary({ extracted, analysis }: Props) {
       <div className="summary-primary">
         <span className="eyebrow">DOCUMENT TYPE</span>
         <div className="document-type-row"><h3>{analysis.documentType}</h3><span>{Math.round(analysis.confidence * 100)}%</span></div>
-        <p>模型根据全文内容与上下文关系判断文种，原始字体和样式只作为弱证据。</p>
+        <p>{analysis.source === 'demo'
+          ? '本结果由浏览器本地启发式规则生成，不代表 DeepSeek 语义识别；原始字体和样式只作为弱证据。'
+          : 'DeepSeek 根据全文内容与上下文关系判断文种，原始字体和样式只作为弱证据。'}</p>
         <div className="summary-meta">
           <span><b>{extracted.paragraphs.length}</b> 个 Word 段落</span>
           <span><b>≈ {extracted.estimatedPages}</b> 页</span>

@@ -59,6 +59,9 @@ export interface StructureAnalysis {
   documentType: Exclude<DocumentType, 'auto'>
   confidence: number
   blocks: StructureBlock[]
+  source?: 'deepseek' | 'demo'
+  demoReason?: string
+  model?: string
   warnings?: string[]
   suggestions?: Array<{
     paragraphId: number
@@ -80,4 +83,9 @@ export interface FormatResult {
   beforeHash: string
   afterHash: string
   contentPreserved: boolean
+  originalCharacters: number
+  outputCharacters: number
+  addedCharacters: number
+  deletedCharacters: number
+  modifiedCharacters: number
 }

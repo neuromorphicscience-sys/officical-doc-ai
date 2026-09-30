@@ -15,6 +15,8 @@ npx wrangler secret put DEEPSEEK_API_KEY
 npm run deploy
 ```
 
+`DEEPSEEK_API_KEY` 只输入到 Wrangler 的 Worker Secret 提示中。不要把它提交到 Git；本地模拟 Secret 时可用 `worker/.dev.vars`，该文件已加入 `.gitignore`。
+
 记录最终 URL，例如：
 
 ```text
@@ -35,7 +37,7 @@ GET /health
 
 1. Settings → Secrets and variables → Actions → Variables
 2. 新增 Repository variable：
-   - Name: `VITE_AI_PROXY_URL`
+   - Name: `VITE_AI_ENDPOINT`
    - Value: Worker URL
 3. Settings → Pages → Build and deployment → Source 选择 `GitHub Actions`
 4. Actions → `Deploy GitHub Pages` → Run workflow
@@ -46,7 +48,7 @@ GET /health
 https://neuromorphicscience-sys.github.io/officical-doc-ai/
 ```
 
-如果暂时没有配置 Repository Variable，页面仍可打开，并可在右上角“AI 服务设置”中本地填写 Worker URL。
+如果暂时没有配置 Repository variable，页面仍可打开并进入清晰标注的演示模式。配置 `VITE_AI_ENDPOINT` 后重新部署即可调用真实 Worker；旧变量名 `VITE_AI_PROXY_URL` 仍兼容。
 
 ## 3. Worker Origin 白名单
 

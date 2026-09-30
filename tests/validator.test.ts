@@ -14,7 +14,7 @@ const extracted: ExtractedDocument = {
 }
 
 describe('validateAnalysis', () => {
-  it('accepts a consistent explicit heading level', () => {
+  it('accepts a consistent explicit heading level and complete AST', () => {
     const analysis: StructureAnalysis = {
       documentType: '通知',
       confidence: 0.9,
@@ -24,10 +24,11 @@ describe('validateAnalysis', () => {
         { id: 2, role: 'body' },
       ],
     }
-    expect(validateAnalysis(extracted, analysis).some((i) => i.code === 'HEADING_RULE_CONFLICT')).toBe(false)
+    expect(validateAnalysis(extracted, analysis).some((issue) => issue.code === 'HEADING_RULE_CONFLICT')).toBe(false)
+    expect(validateAnalysis(extracted, analysis).some((issue) => issue.code === 'MISSING_BLOCK')).toBe(false)
   })
 
-  it('flags a conflict between explicit numbering and AI level', () => {
+  it('blocks formatting when explicit numbering conflicts with the AI level', () => {
     const analysis: StructureAnalysis = {
       documentType: '通知',
       confidence: 0.9,
@@ -37,6 +38,17 @@ describe('validateAnalysis', () => {
         { id: 2, role: 'body' },
       ],
     }
-    expect(validateAnalysis(extracted, analysis).some((i) => i.code === 'HEADING_RULE_CONFLICT')).toBe(true)
+    expect(validateAnalysis(extracted, analysis).find((issue) => issue.code === 'HEADING_RULE_CONFLICT')?.severity).toBe('error')
+  })
+
+  it('reports missing roles and low confidence instead of silently accepting partial AI output', () => {
+    const issues = validateAnalysis(extracted, {
+      documentType: '通知',
+      confidence: 0.42,
+      blocks: [{ id: 0, role: 'title', confidence: 0.4 }],
+    })
+    expect(issues.some((issue) => issue.code === 'MISSING_BLOCK' && issue.paragraphId === 1)).toBe(true)
+    expect(issues.some((issue) => issue.code === 'LOW_DOCUMENT_CONFIDENCE')).toBe(true)
+    expect(issues.some((issue) => issue.code === 'LOW_BLOCK_CONFIDENCE')).toBe(true)
   })
 })

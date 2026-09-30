@@ -1,8 +1,9 @@
-import type { ExtractedDocument, StructureAnalysis } from '../lib/docx/types'
+import type { BlockRole, ExtractedDocument, StructureAnalysis } from '../lib/docx/types'
 
 interface Props {
   extracted: ExtractedDocument
   analysis: StructureAnalysis
+  onBlockChange?: (id: number, role: BlockRole, level?: 1 | 2 | 3 | 4) => void
 }
 
 const roleText: Record<string, string> = {
@@ -11,7 +12,21 @@ const roleText: Record<string, string> = {
   annotation: '附注', unknown: '待确认',
 }
 
-export default function StructureTable({ extracted, analysis }: Props) {
+const editableRoles: Array<{ value: BlockRole; label: string }> = [
+  { value: 'title', label: '标题' },
+  { value: 'recipient', label: '主送机关' },
+  { value: 'body', label: '正文' },
+  { value: 'heading', label: '层级标题' },
+  { value: 'attachment_note', label: '附件说明' },
+  { value: 'attachment_marker', label: '附件标识' },
+  { value: 'attachment_title', label: '附件标题' },
+  { value: 'issuer', label: '发文单位' },
+  { value: 'date', label: '成文日期' },
+  { value: 'annotation', label: '附注' },
+  { value: 'unknown', label: '待确认' },
+]
+
+export default function StructureTable({ extracted, analysis, onBlockChange }: Props) {
   const blockMap = new Map(analysis.blocks.map((b) => [b.id, b]))
   const rows = extracted.paragraphs.filter((p) => p.text.trim())
 
@@ -34,7 +49,33 @@ export default function StructureTable({ extracted, analysis }: Props) {
                 <tr key={p.id}>
                   <td><span className="paragraph-id">P{p.id}</span></td>
                   <td className="text-cell" title={p.text}>{p.text}</td>
-                  <td><span className={`role-pill role-${block?.role ?? 'unknown'}`}>{block?.role === 'heading' ? `${block.level ?? 1}级标题` : role}</span></td>
+                  <td>
+                    {onBlockChange ? (
+                      <div className="role-editor">
+                        <select
+                          aria-label={`段落 P${p.id} 的角色`}
+                          value={block?.role ?? 'unknown'}
+                          onChange={(event) => {
+                            const nextRole = event.target.value as BlockRole
+                            onBlockChange(p.id, nextRole, nextRole === 'heading' ? block?.level ?? 1 : undefined)
+                          }}
+                        >
+                          {editableRoles.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+                        </select>
+                        {block?.role === 'heading' && (
+                          <select
+                            aria-label={`段落 P${p.id} 的标题层级`}
+                            value={block.level ?? 1}
+                            onChange={(event) => onBlockChange(p.id, 'heading', Number(event.target.value) as 1 | 2 | 3 | 4)}
+                          >
+                            {[1, 2, 3, 4].map((level) => <option key={level} value={level}>{level}级</option>)}
+                          </select>
+                        )}
+                      </div>
+                    ) : (
+                      <span className={`role-pill role-${block?.role ?? 'unknown'}`}>{block?.role === 'heading' ? `${block.level ?? 1}级标题` : role}</span>
+                    )}
+                  </td>
                   <td>{confidence !== undefined ? <span className="confidence-cell"><i style={{ width: `${confidence}%` }} /><b>{confidence}%</b></span> : '—'}</td>
                 </tr>
               )

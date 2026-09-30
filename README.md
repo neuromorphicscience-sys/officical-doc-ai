@@ -33,7 +33,13 @@ npm install
 npm run dev
 ```
 
-前端默认从 `VITE_AI_PROXY_URL` 读取 Worker 地址；也可以直接在页面右上角“AI 服务设置”中填写。
+没有配置 Worker 时，页面会进入明确标注的本地演示模式，使用启发式规则展示结构识别流程；这不代表真实 DeepSeek 语义识别。配置 `VITE_AI_ENDPOINT` 后会自动调用 DeepSeek Worker；也可以直接在页面右上角“AI 服务”中填写 Worker 地址。
+
+```bash
+npm run typecheck
+npm test
+npm run build
+```
 
 ## Worker
 

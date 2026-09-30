@@ -7,18 +7,20 @@ import StructureTable from './components/StructureTable'
 import { analyzeStructure } from './lib/ai/client'
 import { extractDocx } from './lib/docx/extractor'
 import { formatDocx } from './lib/docx/formatter'
-import type { DocumentType, ExtractedDocument, FormatResult, StructureAnalysis } from './lib/docx/types'
+import type { BlockRole, DocumentType, ExtractedDocument, FormatResult, StructureAnalysis } from './lib/docx/types'
 import { validateAnalysis, type ValidationIssue } from './lib/docx/validator'
 import { SUPPORTED_DOCUMENT_TYPES } from './lib/rules/officialRules'
+import { detectExplicitHeadingLevel } from './lib/rules/heuristics'
 
-type Stage = 'idle' | 'extracting' | 'analyzing' | 'ready' | 'formatting' | 'done' | 'error'
+type Stage = 'idle' | 'extracting' | 'analyzing' | 'ready' | 'formatting' | 'validating' | 'done' | 'error'
 
 const stageMeta: Record<Stage, { label: string; detail: string; progress: number }> = {
   idle: { label: '等待文档', detail: '选择 DOCX 后开始', progress: 0 },
-  extracting: { label: '解析 DOCX', detail: '浏览器本地解包 OOXML', progress: 24 },
-  analyzing: { label: '恢复语义结构', detail: 'DeepSeek 结合全文上下文判断层级', progress: 58 },
-  ready: { label: '结构识别完成', detail: '等待应用确定性公文规则', progress: 72 },
-  formatting: { label: '规范化排版', detail: '正在重写必要 OOXML 节点', progress: 90 },
+  extracting: { label: '读取 DOCX', detail: '文件在当前浏览器本地解包', progress: 15 },
+  analyzing: { label: 'AI 语义识别', detail: 'DeepSeek 结合整篇文档上下文判断结构', progress: 48 },
+  ready: { label: '标题层级已恢复', detail: '请检查角色与规则冲突，再应用确定性格式', progress: 68 },
+  formatting: { label: '应用公文规范', detail: '规则引擎正在修改必要 OOXML 格式属性', progress: 84 },
+  validating: { label: '验证内容完整性', detail: '比对格式化前后的正文字符与 SHA-256', progress: 96 },
   done: { label: '处理完成', detail: '内容完整性校验已通过', progress: 100 },
   error: { label: '处理未完成', detail: '请检查下方错误提示', progress: 0 },
 }
@@ -42,7 +44,7 @@ function App() {
   const [stage, setStage] = useState<Stage>('idle')
   const [error, setError] = useState('')
 
-  const busy = ['extracting', 'analyzing', 'formatting'].includes(stage)
+  const busy = ['extracting', 'analyzing', 'formatting', 'validating'].includes(stage)
   const suggestions = analysis?.suggestions ?? []
   const fatalIssues = issues.filter((issue) => issue.severity === 'error').length
   const stageInfo = stageMeta[stage]
@@ -52,6 +54,20 @@ function App() {
     const recognized = analysis.blocks.filter((block) => block.role !== 'unknown').length
     return analysis.blocks.length ? Math.round((recognized / analysis.blocks.length) * 100) : 0
   }, [analysis])
+
+  const formatReport = result ? [
+    { label: '页面尺寸与页边距', verified: result.changes.some((change) => change.category === 'page') },
+    { label: '标题格式', verified: result.changes.some((change) => change.category === 'title') },
+    { label: '正文字体与缩进', verified: result.changes.some((change) => change.category === 'body') },
+    { label: '一级至四级标题', verified: result.changes.some((change) => change.category === 'heading') },
+    { label: '28.8 磅行距', verified: result.changes.some((change) => change.paragraphId !== undefined) },
+    { label: '页码', verified: result.changes.some((change) => change.category === 'page_number') || Boolean(extracted && extracted.estimatedPages <= 1) },
+    {
+      label: '附件、落款与日期',
+      verified: result.changes.some((change) => ['attachment_note', 'attachment_marker', 'attachment_title', 'issuer', 'date', 'annotation'].includes(change.category))
+        || !analysis?.blocks.some((block) => ['attachment_note', 'attachment_marker', 'attachment_title', 'issuer', 'date', 'annotation'].includes(block.role)),
+    },
+  ] : []
 
   const resetDerived = () => {
     setExtracted(undefined)
@@ -67,6 +83,25 @@ function App() {
     setStage('idle')
   }
 
+  const changeBlock = (id: number, role: BlockRole, level?: 1 | 2 | 3 | 4) => {
+    if (!analysis || !extracted) return
+    const explicitLevel = detectExplicitHeadingLevel(extracted.paragraphs.find((paragraph) => paragraph.id === id)?.text ?? '')
+    const found = analysis.blocks.some((block) => block.id === id)
+    const changedBlocks = found
+      ? analysis.blocks.map((block) => block.id === id
+        ? { ...block, role, level: role === 'heading' ? level ?? explicitLevel ?? block.level ?? 1 : undefined, confidence: 1, rationale: '用户已人工确认该角色' }
+        : block)
+      : [...analysis.blocks, { id, role, level: role === 'heading' ? level ?? explicitLevel ?? 1 : undefined, confidence: 1, rationale: '用户已人工确认该角色' }]
+    const updated = { ...analysis, blocks: changedBlocks.sort((a, b) => a.id - b.id) }
+    setAnalysis(updated)
+    setIssues([
+      ...validateAnalysis(extracted, updated),
+      ...(updated.warnings ?? []).map((message, index) => ({ severity: 'warning' as const, code: `ANALYSIS_WARNING_${index}`, message })),
+    ])
+    setResult(undefined)
+    setStage('ready')
+  }
+
   const runAnalysis = async () => {
     if (!file) return
     try {
@@ -77,7 +112,10 @@ function App() {
       setStage('analyzing')
       const semantic = await analyzeStructure(parsed.paragraphs, documentType)
       setAnalysis(semantic)
-      setIssues(validateAnalysis(parsed, semantic))
+      setIssues([
+        ...validateAnalysis(parsed, semantic),
+        ...(semantic.warnings ?? []).map((message, index) => ({ severity: 'warning' as const, code: `ANALYSIS_WARNING_${index}`, message })),
+      ])
       setStage('ready')
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e))
@@ -91,7 +129,7 @@ function App() {
       setError('')
       setStage('formatting')
       const { zip, extracted: fresh } = await extractDocx(file)
-      const formatted = await formatDocx(zip, fresh, analysis)
+      const formatted = await formatDocx(zip, fresh, analysis, () => setStage('validating'))
       setResult(formatted)
       setStage('done')
     } catch (e) {
@@ -128,6 +166,7 @@ function App() {
         </nav>
         <div className="topbar-actions">
           <span className="privacy-pill"><i /> 原文件本地处理</span>
+          {analysis?.source === 'demo' && <span className="demo-pill">演示模式</span>}
           <SettingsPanel />
         </div>
       </header>
@@ -193,7 +232,17 @@ function App() {
                 <span className="local-badge">LOCAL</span>
               </div>
 
-              <Dropzone file={file} onFile={chooseFile} disabled={busy} />
+              <Dropzone
+                file={file}
+                onFile={chooseFile}
+                disabled={busy}
+                onInvalidFile={(message) => {
+                  setFile(undefined)
+                  resetDerived()
+                  setError(message)
+                  setStage('error')
+                }}
+              />
 
               <div className="field-row">
                 <label className="field">
@@ -201,7 +250,11 @@ function App() {
                   <select
                     value={documentType}
                     disabled={busy}
-                    onChange={(e) => setDocumentType(e.target.value as DocumentType)}
+                    onChange={(e) => {
+                      setDocumentType(e.target.value as DocumentType)
+                      resetDerived()
+                      setStage('idle')
+                    }}
                   >
                     {SUPPORTED_DOCUMENT_TYPES.map((type) => (
                       <option key={type} value={type}>{type === 'auto' ? '自动识别（推荐）' : type}</option>
@@ -212,13 +265,14 @@ function App() {
               </div>
 
               <button className="primary full" disabled={!file || busy} onClick={runAnalysis}>
-                <span>{stage === 'extracting' || stage === 'analyzing' ? '正在分析…' : '开始 AI 结构分析'}</span>
+                <span>{stage === 'extracting' || stage === 'analyzing' ? '正在分析…' : 'AI 智能规范化 · 先识别结构'}</span>
                 <b>→</b>
               </button>
               <div className="immutability-note">
                 <span>✓</span>
                 <p><strong>内容零侵入</strong>：格式修复默认不新增、删除或改写正文字符。</p>
               </div>
+              <p className="privacy-note">文档解析、格式修改和重新生成均在当前浏览器完成。原始 DOCX 不上传业务服务器；AI 服务仅接收结构识别所需的必要文本段落与弱格式特征。</p>
             </section>
 
             <aside className="card process-card">
@@ -232,13 +286,15 @@ function App() {
 
               <div className="process-list">
                 {[
-                  ['01', '本地解析 DOCX', '解包 document.xml、styles.xml 等结构'],
-                  ['02', '语义结构恢复', '结合全文上下文识别标题与正文层级'],
-                  ['03', '规则冲突校验', '显式序号与 AI 判断交叉检查'],
-                  ['04', '确定性排版', '按规范修改页面、字体、缩进与页码'],
-                  ['05', '内容完整性校验', '正文语义字符 SHA-256 前后一致'],
+                  ['01', '读取 DOCX', '仅接受 .docx 文件'],
+                  ['02', '提取文档结构', '本地读取段落、表格与弱格式特征'],
+                  ['03', 'AI 语义识别', '向 Worker 发送必要文本，不上传原文件'],
+                  ['04', '恢复标题层级', '结合全文上下文与显式序号规则'],
+                  ['05', '应用公文规范', '由确定性引擎处理字体、页面与缩进'],
+                  ['06', '验证内容完整性', '比对字符数和 SHA-256'],
+                  ['07', '生成规范文档', '浏览器本地重打包 DOCX'],
                 ].map(([num, title, detail], index) => {
-                  const threshold = [10, 42, 68, 82, 96][index]
+                  const threshold = [8, 20, 40, 58, 76, 94, 100][index]
                   const complete = stageInfo.progress >= threshold
                   return (
                     <div className={`process-item ${complete ? 'complete' : ''}`} key={num}>
@@ -266,7 +322,7 @@ function App() {
                 <span className="section-index">02</span>
                 <div>
                   <p>SEMANTIC ANALYSIS</p>
-                  <h2>AI 已恢复文档逻辑结构</h2>
+              <h2>{analysis.source === 'demo' ? '本地规则演示识别' : 'AI 已恢复文档逻辑结构'}</h2>
                 </div>
               </div>
               <div className="analysis-mini-metrics">
@@ -277,6 +333,12 @@ function App() {
             </div>
 
             <AnalysisSummary extracted={extracted} analysis={analysis} />
+            {analysis.source === 'demo' && (
+              <section className="demo-warning" role="status">
+                <strong>当前为演示模式，正式语义识别需配置 DeepSeek Worker</strong>
+                <p>{analysis.demoReason} 本地规则只作展示，角色和层级置信度较低，请逐段核对。</p>
+              </section>
+            )}
             <IssueList issues={issues} />
 
             {suggestions.length > 0 && (
@@ -300,7 +362,7 @@ function App() {
               </section>
             )}
 
-            <StructureTable extracted={extracted} analysis={analysis} />
+            <StructureTable extracted={extracted} analysis={analysis} onBlockChange={changeBlock} />
 
             <section className="card final-action-card">
               <div className="final-action-copy">
@@ -324,12 +386,27 @@ function App() {
               <h2>规范化完成，内容完整性验证通过</h2>
               <p>共执行 <strong>{result.changes.length}</strong> 项格式操作；格式化前后正文语义字符 SHA-256 一致。</p>
               <div className="hash-row"><span>BEFORE</span><code>{result.beforeHash.slice(0, 18)}…</code><span>AFTER</span><code>{result.afterHash.slice(0, 18)}…</code></div>
+              <div className="integrity-grid">
+                <div><span>原始字符数</span><strong>{result.originalCharacters}</strong></div>
+                <div><span>输出字符数</span><strong>{result.outputCharacters}</strong></div>
+                <div><span>新增字符</span><strong>{result.addedCharacters}</strong></div>
+                <div><span>删除字符</span><strong>{result.deletedCharacters}</strong></div>
+                <div><span>修改字符</span><strong>{result.modifiedCharacters}</strong></div>
+                <div><span>SHA-256</span><strong>{result.contentPreserved ? '一致' : '不一致'}</strong></div>
+              </div>
+              <div className="format-report">
+                <strong>格式修复报告</strong>
+                <ul>
+                  {formatReport.map((item) => <li key={item.label}><span>{item.verified ? '✓' : '—'}</span>{item.label}</li>)}
+                </ul>
+              </div>
               <details>
                 <summary>查看格式操作明细</summary>
                 <ul>{result.changes.slice(0, 80).map((c, i) => <li key={i}>{c.description}</li>)}</ul>
               </details>
             </div>
             <button className="download" onClick={download}>下载规范版 DOCX</button>
+            <button className="secondary-action" onClick={() => { setStage('idle'); void runAnalysis() }}>重新处理</button>
           </section>
         )}
 
@@ -343,14 +420,17 @@ function App() {
               </div>
             </div>
           </div>
-          <div className="standard-grid">
-            {standardItems.map(([title, detail], index) => (
-              <article className="standard-item" key={title}>
-                <span>{String(index + 1).padStart(2, '0')}</span>
-                <div><strong>{title}</strong><p>{detail}</p></div>
-              </article>
-            ))}
-          </div>
+          <details className="standard-details" open>
+            <summary>展开查看核心格式规范</summary>
+            <div className="standard-grid">
+              {standardItems.map(([title, detail], index) => (
+                <article className="standard-item" key={title}>
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <div><strong>{title}</strong><p>{detail}</p></div>
+                </article>
+              ))}
+            </div>
+          </details>
         </section>
 
         <section className="architecture-section" id="architecture">

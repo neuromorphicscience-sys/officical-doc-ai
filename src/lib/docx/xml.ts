@@ -62,5 +62,13 @@ export function paragraphText(p: Element): string {
 }
 
 export function getAllParagraphs(doc: XMLDocument): Element[] {
-  return Array.from(doc.getElementsByTagNameNS(W_NS, 'p'))
+  return getElementsByNamespace(doc, W_NS, 'p')
+}
+
+export function getElementsByNamespace(root: XMLDocument | Element, namespaceUri: string, localName: string): Element[] {
+  const namespaced = Array.from(root.getElementsByTagNameNS(namespaceUri, localName))
+  if (namespaced.length) return namespaced
+  // Some lightweight DOM implementations used by tests do not implement namespace lookup.
+  return Array.from(root.getElementsByTagName('*'))
+    .filter((element) => element.localName === localName && element.namespaceURI === namespaceUri)
 }

@@ -4,16 +4,17 @@ interface Props {
   file?: File
   onFile: (file: File) => void
   disabled?: boolean
+  onInvalidFile?: (message: string) => void
 }
 
-export default function Dropzone({ file, onFile, disabled }: Props) {
+export default function Dropzone({ file, onFile, disabled, onInvalidFile }: Props) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [dragging, setDragging] = useState(false)
 
   const accept = (candidate?: File) => {
     if (!candidate) return
     if (!candidate.name.toLowerCase().endsWith('.docx')) {
-      alert('当前版本仅支持 .docx 文件。')
+      onInvalidFile?.('文件格式不受支持：当前版本仅支持 .docx。')
       return
     }
     onFile(candidate)
@@ -43,7 +44,10 @@ export default function Dropzone({ file, onFile, disabled }: Props) {
         accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         hidden
         disabled={disabled}
-        onChange={(e) => accept(e.target.files?.[0])}
+        onChange={(e) => {
+          accept(e.target.files?.[0])
+          e.currentTarget.value = ''
+        }}
       />
       <div className="drop-icon"><span>W</span><small>.DOCX</small></div>
       <div className="drop-copy">

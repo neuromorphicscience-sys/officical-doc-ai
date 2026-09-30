@@ -66,3 +66,5 @@ word/document.xml
 ## 隐私边界
 
 DOCX 二进制、图片、嵌入对象不会发送给 Worker。Worker 只接收必要段落文本及少量弱格式特征。
+
+未配置 Worker 或 Worker 网络不可达时，前端改用明确标注的本地演示规则；演示结果置信度较低并要求人工核对，不会标记为 DeepSeek 响应。已配置的 Worker 若返回无效 AI JSON 或配置错误，则显示错误，不会掩盖为演示成功。
