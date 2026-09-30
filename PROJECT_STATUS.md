@@ -35,17 +35,15 @@
 ## GitHub 与部署
 
 - 仓库：[neuromorphicscience-sys/officical-doc-ai](https://github.com/neuromorphicscience-sys/officical-doc-ai)，保留仓库现有拼写。
-- 本轮工程代码提交：`fd04d30a2866fcccf7ac581f6286cd27f7350ea7`。该提交尚未推送；HTTPS 推送因当前环境没有 GitHub 登录凭据而被拒绝。远端 `main` 仍为 `9ee2e84`。
-- 远端最近一次 CI（`9ee2e84`）成功；最近一次 Pages workflow 失败于 `configure-pages`，因为仓库尚未启用 Pages，`GITHUB_TOKEN` 无权创建 Pages site。远端 Pages API 返回 404，因此当前不能确认站点已发布。
-- 预期站点 URL：[https://neuromorphicscience-sys.github.io/officical-doc-ai/](https://neuromorphicscience-sys.github.io/officical-doc-ai/)。用户已将 Pages Source 设为 GitHub Actions；但截至本次检查，Pages API 与公开站点 URL 仍返回 HTTP 404，尚无成功部署。推送本地提交后需检查新的 Pages workflow 和站点发布状态。
+- 本轮代码在本地提交为 `fd04d30a2866fcccf7ac581f6286cd27f7350ea7`，并通过 GitHub 插件以普通快进方式推送到远端；远端代码提交为 `376f0bd746a1c47aef8b0ea0253c71473123103b`。没有强推或改写远端历史。
+- 远端最新 `main` 状态文档提交为 `584c6d5868c7e8fa3381c3f3f02852f3f01afe32`。对应 CI run `36700978444` 和 Pages run `36700978432` 均完成且成功，web、worker、Pages build、deploy jobs 全部绿色。
+- GitHub Pages 已部署：[https://neuromorphicscience-sys.github.io/officical-doc-ai/](https://neuromorphicscience-sys.github.io/officical-doc-ai/)。Playwright 浏览器确认页面标题及前端 UI 正常渲染；HTML、JS、CSS 请求均为 200。JS MIME 为 `application/javascript`，CSS MIME 为 `text/css`。
 - Cloudflare Worker 尚未部署；未配置 DeepSeek API Key，也未配置 Pages 的 `VITE_AI_ENDPOINT`。前端在这之前以明确标识的本地演示模式运行。
 
 ## 未完成事项与下一步
 
-1. 在有 GitHub 凭据的环境中推送本地 `main`，让 CI 和 Pages workflow 对本次提交运行；读取失败 job 日志并修复。
-2. 确认 Pages workflow 完成后，用浏览器检查线上 HTML、CSS、JS 网络请求和页面渲染。
-3. 在 Cloudflare 登录后部署 Worker，通过 Wrangler Secret 配置 `DEEPSEEK_API_KEY`；再将 Worker URL 配为 GitHub Actions Repository variable `VITE_AI_ENDPOINT` 并重新部署 Pages。
-4. 在真实 Word 与目标办公环境中验收排版；目前测试覆盖 OOXML 结构，不等同于 Microsoft Word 的分页/视觉回归测试。
+1. 在 Cloudflare 登录后部署 Worker，通过 Wrangler Secret 配置 `DEEPSEEK_API_KEY`；再将 Worker URL 配为 GitHub Actions Repository variable `VITE_AI_ENDPOINT` 并重新部署 Pages，以启用真正的 DeepSeek 语义识别。
+2. 在真实 Word 与目标办公环境中验收排版；目前测试覆盖 OOXML 结构，不等同于 Microsoft Word 的分页/视觉回归测试。
 
 ## 技术风险与限制
 
@@ -53,4 +51,4 @@
 - 规范字体名称写入 DOCX，但字体文件未打包；缺少对应字体时办公软件可能替换字体。没有提供的专属模板规则不会被臆造。
 - OOXML 表格与图片通过 fixture 验证；复杂文本框、嵌入对象、修订、脚注/尾注等复杂文档元素仍需用真实样本验收。
 - 未配置 Worker 时 heuristic 只用于演示，不等于真实语义分析；低置信度识别需要用户检查并修正。
-- Pages 与 Worker 均未通过本次提交完成线上部署，线上可用性仍待凭据和仓库设置完成后确认。
+- Worker 仍未部署，线上前端以明确标注的本地演示模式运行。Playwright 控制台仅报告浏览器默认请求的 `/favicon.ico` 404；不影响页面、JS 或 CSS 加载。
